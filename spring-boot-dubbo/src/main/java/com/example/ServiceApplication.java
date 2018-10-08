@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ImportResource;
 
-//@MapperScan("com.example.mapper")
+@MapperScan("com.example.mapper")
 @ImportResource({"classpath:dubbo/*.xml"})
 @SpringBootApplication
 public class ServiceApplication {
