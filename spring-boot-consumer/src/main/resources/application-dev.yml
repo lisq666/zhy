@@ -1,0 +1,8 @@
+server:
+  port: 8081
+
+dubbo:
+    application:
+          name: zhy-consumer
+    registry:
+          address: 10.1.102.163:2181

@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mapper.MallUserInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.example.model.MallUserInfo" >
+    <id column="USERID" property="userid" jdbcType="CHAR" />
+    <result column="USER_LEVEL" property="userLevel" jdbcType="VARCHAR" />
+    <result column="USER_LOGO" property="userLogo" jdbcType="VARCHAR" />
+    <result column="USER_TYPE" property="userType" jdbcType="VARCHAR" />
+    <result column="REGISTER_TIME" property="registerTime" jdbcType="TIMESTAMP" />
+    <result column="MEMBER_BIRTHDAY" property="memberBirthday" jdbcType="TIMESTAMP" />
+    <result column="REAL_NAME" property="realName" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="ID_TYPE_CODE" property="idTypeCode" jdbcType="VARCHAR" />
+    <result column="ID_NUMBER" property="idNumber" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="POST" property="post" jdbcType="VARCHAR" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    <result column="CITY" property="city" jdbcType="VARCHAR" />
+    <result column="IS_VISITED_MEMBER" property="isVisitedMember" jdbcType="CHAR" />
+    <result column="REGISTER_CHANNELS" property="registerChannels" jdbcType="CHAR" />
+    <result column="register_way" property="registerWay" jdbcType="CHAR" />
+    <result column="IS_FIRST_LOGIN" property="isFirstLogin" jdbcType="CHAR" />
+    <result column="CIS_CODE" property="cisCode" jdbcType="VARCHAR" />
+    <result column="REGISTER_AREA_NUMBER" property="registerAreaNumber" jdbcType="VARCHAR" />
+    <result column="DETAIL_ADDRESS" property="detailAddress" jdbcType="VARCHAR" />
+    <result column="NICKNAME" property="nickname" jdbcType="VARCHAR" />
+    <result column="IS_ZONE_OTHER" property="isZoneOther" jdbcType="CHAR" />
+    <result column="EBANK_USER_LEVEL" property="ebankUserLevel" jdbcType="CHAR" />
+    <result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="REGISTER_IP" property="registerIp" jdbcType="VARCHAR" />
+    <result column="MALL_ID" property="mallId" jdbcType="VARCHAR" />
+    <result column="site_code" property="siteCode" jdbcType="VARCHAR" />
+    <result column="is_can_edit" property="isCanEdit" jdbcType="CHAR" />
+    <result column="silenceFlag" property="silenceflag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    USERID, USER_LEVEL, USER_LOGO, USER_TYPE, REGISTER_TIME, MEMBER_BIRTHDAY, REAL_NAME, 
+    EMAIL, SEX, MOBILE, ADDRESS, ID_TYPE_CODE, ID_NUMBER, PHONE, POST, PROVINCE, CITY, 
+    IS_VISITED_MEMBER, REGISTER_CHANNELS, register_way, IS_FIRST_LOGIN, CIS_CODE, REGISTER_AREA_NUMBER, 
+    DETAIL_ADDRESS, NICKNAME, IS_ZONE_OTHER, EBANK_USER_LEVEL, MODIFY_TIME, remark, REGISTER_IP, 
+    MALL_ID, site_code, is_can_edit, silenceFlag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from b2c_mall_user_info
+    where USERID = #{userid,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from b2c_mall_user_info
+    where USERID = #{userid,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.example.model.MallUserInfo" >
+    insert into b2c_mall_user_info (USERID, USER_LEVEL, USER_LOGO, 
+      USER_TYPE, REGISTER_TIME, MEMBER_BIRTHDAY, 
+      REAL_NAME, EMAIL, SEX, 
+      MOBILE, ADDRESS, ID_TYPE_CODE, 
+      ID_NUMBER, PHONE, POST, 
+      PROVINCE, CITY, IS_VISITED_MEMBER, 
+      REGISTER_CHANNELS, register_way, IS_FIRST_LOGIN, 
+      CIS_CODE, REGISTER_AREA_NUMBER, DETAIL_ADDRESS, 
+      NICKNAME, IS_ZONE_OTHER, EBANK_USER_LEVEL, 
+      MODIFY_TIME, remark, REGISTER_IP, 
+      MALL_ID, site_code, is_can_edit, 
+      silenceFlag)
+    values (#{userid,jdbcType=CHAR}, #{userLevel,jdbcType=VARCHAR}, #{userLogo,jdbcType=VARCHAR}, 
+      #{userType,jdbcType=VARCHAR}, #{registerTime,jdbcType=TIMESTAMP}, #{memberBirthday,jdbcType=TIMESTAMP}, 
+      #{realName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{idTypeCode,jdbcType=VARCHAR}, 
+      #{idNumber,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{isVisitedMember,jdbcType=CHAR}, 
+      #{registerChannels,jdbcType=CHAR}, #{registerWay,jdbcType=CHAR}, #{isFirstLogin,jdbcType=CHAR}, 
+      #{cisCode,jdbcType=VARCHAR}, #{registerAreaNumber,jdbcType=VARCHAR}, #{detailAddress,jdbcType=VARCHAR}, 
+      #{nickname,jdbcType=VARCHAR}, #{isZoneOther,jdbcType=CHAR}, #{ebankUserLevel,jdbcType=CHAR}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{registerIp,jdbcType=VARCHAR}, 
+      #{mallId,jdbcType=VARCHAR}, #{siteCode,jdbcType=VARCHAR}, #{isCanEdit,jdbcType=CHAR}, 
+      #{silenceflag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.model.MallUserInfo" >
+    insert into b2c_mall_user_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        USERID,
+      </if>
+      <if test="userLevel != null" >
+        USER_LEVEL,
+      </if>
+      <if test="userLogo != null" >
+        USER_LOGO,
+      </if>
+      <if test="userType != null" >
+        USER_TYPE,
+      </if>
+      <if test="registerTime != null" >
+        REGISTER_TIME,
+      </if>
+      <if test="memberBirthday != null" >
+        MEMBER_BIRTHDAY,
+      </if>
+      <if test="realName != null" >
+        REAL_NAME,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="sex != null" >
+        SEX,
+      </if>
+      <if test="mobile != null" >
+        MOBILE,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="idTypeCode != null" >
+        ID_TYPE_CODE,
+      </if>
+      <if test="idNumber != null" >
+        ID_NUMBER,
+      </if>
+      <if test="phone != null" >
+        PHONE,
+      </if>
+      <if test="post != null" >
+        POST,
+      </if>
+      <if test="province != null" >
+        PROVINCE,
+      </if>
+      <if test="city != null" >
+        CITY,
+      </if>
+      <if test="isVisitedMember != null" >
+        IS_VISITED_MEMBER,
+      </if>
+      <if test="registerChannels != null" >
+        REGISTER_CHANNELS,
+      </if>
+      <if test="registerWay != null" >
+        register_way,
+      </if>
+      <if test="isFirstLogin != null" >
+        IS_FIRST_LOGIN,
+      </if>
+      <if test="cisCode != null" >
+        CIS_CODE,
+      </if>
+      <if test="registerAreaNumber != null" >
+        REGISTER_AREA_NUMBER,
+      </if>
+      <if test="detailAddress != null" >
+        DETAIL_ADDRESS,
+      </if>
+      <if test="nickname != null" >
+        NICKNAME,
+      </if>
+      <if test="isZoneOther != null" >
+        IS_ZONE_OTHER,
+      </if>
+      <if test="ebankUserLevel != null" >
+        EBANK_USER_LEVEL,
+      </if>
+      <if test="modifyTime != null" >
+        MODIFY_TIME,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="registerIp != null" >
+        REGISTER_IP,
+      </if>
+      <if test="mallId != null" >
+        MALL_ID,
+      </if>
+      <if test="siteCode != null" >
+        site_code,
+      </if>
+      <if test="isCanEdit != null" >
+        is_can_edit,
+      </if>
+      <if test="silenceflag != null" >
+        silenceFlag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+      <if test="userLevel != null" >
+        #{userLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="userLogo != null" >
+        #{userLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null" >
+        #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memberBirthday != null" >
+        #{memberBirthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="realName != null" >
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="idTypeCode != null" >
+        #{idTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null" >
+        #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null" >
+        #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="isVisitedMember != null" >
+        #{isVisitedMember,jdbcType=CHAR},
+      </if>
+      <if test="registerChannels != null" >
+        #{registerChannels,jdbcType=CHAR},
+      </if>
+      <if test="registerWay != null" >
+        #{registerWay,jdbcType=CHAR},
+      </if>
+      <if test="isFirstLogin != null" >
+        #{isFirstLogin,jdbcType=CHAR},
+      </if>
+      <if test="cisCode != null" >
+        #{cisCode,jdbcType=VARCHAR},
+      </if>
+      <if test="registerAreaNumber != null" >
+        #{registerAreaNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="detailAddress != null" >
+        #{detailAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="isZoneOther != null" >
+        #{isZoneOther,jdbcType=CHAR},
+      </if>
+      <if test="ebankUserLevel != null" >
+        #{ebankUserLevel,jdbcType=CHAR},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="registerIp != null" >
+        #{registerIp,jdbcType=VARCHAR},
+      </if>
+      <if test="mallId != null" >
+        #{mallId,jdbcType=VARCHAR},
+      </if>
+      <if test="siteCode != null" >
+        #{siteCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isCanEdit != null" >
+        #{isCanEdit,jdbcType=CHAR},
+      </if>
+      <if test="silenceflag != null" >
+        #{silenceflag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.model.MallUserInfo" >
+    update b2c_mall_user_info
+    <set >
+      <if test="userLevel != null" >
+        USER_LEVEL = #{userLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="userLogo != null" >
+        USER_LOGO = #{userLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        USER_TYPE = #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null" >
+        REGISTER_TIME = #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memberBirthday != null" >
+        MEMBER_BIRTHDAY = #{memberBirthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="realName != null" >
+        REAL_NAME = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        SEX = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="idTypeCode != null" >
+        ID_TYPE_CODE = #{idTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null" >
+        ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null" >
+        POST = #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        PROVINCE = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        CITY = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="isVisitedMember != null" >
+        IS_VISITED_MEMBER = #{isVisitedMember,jdbcType=CHAR},
+      </if>
+      <if test="registerChannels != null" >
+        REGISTER_CHANNELS = #{registerChannels,jdbcType=CHAR},
+      </if>
+      <if test="registerWay != null" >
+        register_way = #{registerWay,jdbcType=CHAR},
+      </if>
+      <if test="isFirstLogin != null" >
+        IS_FIRST_LOGIN = #{isFirstLogin,jdbcType=CHAR},
+      </if>
+      <if test="cisCode != null" >
+        CIS_CODE = #{cisCode,jdbcType=VARCHAR},
+      </if>
+      <if test="registerAreaNumber != null" >
+        REGISTER_AREA_NUMBER = #{registerAreaNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="detailAddress != null" >
+        DETAIL_ADDRESS = #{detailAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        NICKNAME = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="isZoneOther != null" >
+        IS_ZONE_OTHER = #{isZoneOther,jdbcType=CHAR},
+      </if>
+      <if test="ebankUserLevel != null" >
+        EBANK_USER_LEVEL = #{ebankUserLevel,jdbcType=CHAR},
+      </if>
+      <if test="modifyTime != null" >
+        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="registerIp != null" >
+        REGISTER_IP = #{registerIp,jdbcType=VARCHAR},
+      </if>
+      <if test="mallId != null" >
+        MALL_ID = #{mallId,jdbcType=VARCHAR},
+      </if>
+      <if test="siteCode != null" >
+        site_code = #{siteCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isCanEdit != null" >
+        is_can_edit = #{isCanEdit,jdbcType=CHAR},
+      </if>
+      <if test="silenceflag != null" >
+        silenceFlag = #{silenceflag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where USERID = #{userid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.model.MallUserInfo" >
+    update b2c_mall_user_info
+    set USER_LEVEL = #{userLevel,jdbcType=VARCHAR},
+      USER_LOGO = #{userLogo,jdbcType=VARCHAR},
+      USER_TYPE = #{userType,jdbcType=VARCHAR},
+      REGISTER_TIME = #{registerTime,jdbcType=TIMESTAMP},
+      MEMBER_BIRTHDAY = #{memberBirthday,jdbcType=TIMESTAMP},
+      REAL_NAME = #{realName,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      SEX = #{sex,jdbcType=VARCHAR},
+      MOBILE = #{mobile,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      ID_TYPE_CODE = #{idTypeCode,jdbcType=VARCHAR},
+      ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      POST = #{post,jdbcType=VARCHAR},
+      PROVINCE = #{province,jdbcType=VARCHAR},
+      CITY = #{city,jdbcType=VARCHAR},
+      IS_VISITED_MEMBER = #{isVisitedMember,jdbcType=CHAR},
+      REGISTER_CHANNELS = #{registerChannels,jdbcType=CHAR},
+      register_way = #{registerWay,jdbcType=CHAR},
+      IS_FIRST_LOGIN = #{isFirstLogin,jdbcType=CHAR},
+      CIS_CODE = #{cisCode,jdbcType=VARCHAR},
+      REGISTER_AREA_NUMBER = #{registerAreaNumber,jdbcType=VARCHAR},
+      DETAIL_ADDRESS = #{detailAddress,jdbcType=VARCHAR},
+      NICKNAME = #{nickname,jdbcType=VARCHAR},
+      IS_ZONE_OTHER = #{isZoneOther,jdbcType=CHAR},
+      EBANK_USER_LEVEL = #{ebankUserLevel,jdbcType=CHAR},
+      MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      REGISTER_IP = #{registerIp,jdbcType=VARCHAR},
+      MALL_ID = #{mallId,jdbcType=VARCHAR},
+      site_code = #{siteCode,jdbcType=VARCHAR},
+      is_can_edit = #{isCanEdit,jdbcType=CHAR},
+      silenceFlag = #{silenceflag,jdbcType=VARCHAR}
+    where USERID = #{userid,jdbcType=CHAR}
+  </update>
+</mapper>

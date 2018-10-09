@@ -1,8 +1,5 @@
-server:
-  port: 8081
-
-dubbo:
-    application:
-          name: zhy-consumer
-    registry:
-          address: 10.1.102.166:2181
+# 测试环境：java -jar 包名.jar --spring.profiles.active=test
+# 生产环境：java -jar 包名.jar --spring.profiles.active=prod
+spring:
+  profiles:
+    active: dev

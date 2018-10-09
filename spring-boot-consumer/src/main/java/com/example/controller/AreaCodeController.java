@@ -1,14 +1,12 @@
 package com.example.controller;
 
-import com.example.impl.AreaCodeService;
-import com.example.model.AreaCode;
+import com.example.service.AreaCodeService;
 import com.example.vo.json.AreaCodeVo;
 import com.example.vo.json.ResultData;
 import com.example.vo.parameter.AreaCodeVp;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @RestController
 @RequestMapping(produces = {"application/json;charset=UTF-8"})

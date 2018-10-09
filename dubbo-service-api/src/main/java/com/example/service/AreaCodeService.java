@@ -1,10 +1,7 @@
-package com.example.impl;
+package com.example.service;
 
-import com.example.model.AreaCode;
 import com.example.vo.json.AreaCodeVo;
 import com.example.vo.parameter.AreaCodeVp;
-
-import java.util.List;
 
 public interface AreaCodeService {
 

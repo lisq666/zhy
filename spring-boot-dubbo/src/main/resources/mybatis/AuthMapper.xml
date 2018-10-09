@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mapper.AuthMapper" >
+  <resultMap id="BaseResultMap" type="com.example.model.Auth" >
+    <id column="userid" property="userid" jdbcType="CHAR" />
+    <result column="login_id" property="loginId" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="user_type" property="userType" jdbcType="VARCHAR" />
+    <result column="ctpf_type" property="ctpfType" jdbcType="VARCHAR" />
+    <result column="is_lock" property="isLock" jdbcType="CHAR" />
+    <result column="is_enable" property="isEnable" jdbcType="CHAR" />
+    <result column="pwd_valid_time" property="pwdValidTime" jdbcType="TIMESTAMP" />
+    <result column="isPassModified" property="ispassmodified" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    userid, login_id, password, user_type, ctpf_type, is_lock, is_enable, pwd_valid_time, 
+    isPassModified
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from b2c_auth
+    where userid = #{userid,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from b2c_auth
+    where userid = #{userid,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.example.model.Auth" >
+    insert into b2c_auth (userid, login_id, password, 
+      user_type, ctpf_type, is_lock, 
+      is_enable, pwd_valid_time, isPassModified
+      )
+    values (#{userid,jdbcType=CHAR}, #{loginId,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{userType,jdbcType=VARCHAR}, #{ctpfType,jdbcType=VARCHAR}, #{isLock,jdbcType=CHAR}, 
+      #{isEnable,jdbcType=CHAR}, #{pwdValidTime,jdbcType=TIMESTAMP}, #{ispassmodified,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.model.Auth" >
+    insert into b2c_auth
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="loginId != null" >
+        login_id,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="userType != null" >
+        user_type,
+      </if>
+      <if test="ctpfType != null" >
+        ctpf_type,
+      </if>
+      <if test="isLock != null" >
+        is_lock,
+      </if>
+      <if test="isEnable != null" >
+        is_enable,
+      </if>
+      <if test="pwdValidTime != null" >
+        pwd_valid_time,
+      </if>
+      <if test="ispassmodified != null" >
+        isPassModified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        #{userid,jdbcType=CHAR},
+      </if>
+      <if test="loginId != null" >
+        #{loginId,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="ctpfType != null" >
+        #{ctpfType,jdbcType=VARCHAR},
+      </if>
+      <if test="isLock != null" >
+        #{isLock,jdbcType=CHAR},
+      </if>
+      <if test="isEnable != null" >
+        #{isEnable,jdbcType=CHAR},
+      </if>
+      <if test="pwdValidTime != null" >
+        #{pwdValidTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ispassmodified != null" >
+        #{ispassmodified,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.model.Auth" >
+    update b2c_auth
+    <set >
+      <if test="loginId != null" >
+        login_id = #{loginId,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        user_type = #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="ctpfType != null" >
+        ctpf_type = #{ctpfType,jdbcType=VARCHAR},
+      </if>
+      <if test="isLock != null" >
+        is_lock = #{isLock,jdbcType=CHAR},
+      </if>
+      <if test="isEnable != null" >
+        is_enable = #{isEnable,jdbcType=CHAR},
+      </if>
+      <if test="pwdValidTime != null" >
+        pwd_valid_time = #{pwdValidTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ispassmodified != null" >
+        isPassModified = #{ispassmodified,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where userid = #{userid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.model.Auth" >
+    update b2c_auth
+    set login_id = #{loginId,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      user_type = #{userType,jdbcType=VARCHAR},
+      ctpf_type = #{ctpfType,jdbcType=VARCHAR},
+      is_lock = #{isLock,jdbcType=CHAR},
+      is_enable = #{isEnable,jdbcType=CHAR},
+      pwd_valid_time = #{pwdValidTime,jdbcType=TIMESTAMP},
+      isPassModified = #{ispassmodified,jdbcType=VARCHAR}
+    where userid = #{userid,jdbcType=CHAR}
+  </update>
+</mapper>

@@ -1,4 +1,4 @@
-package com.example.impl;
+package com.example.service;
 
 import com.example.mapper.AreaCodeMapper;
 import com.example.model.AreaCode;
@@ -11,8 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service("areaCodeService")
 @Transactional
