@@ -14,8 +14,5 @@ http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
     <dubbo:reference id="areaCodeService" interface="com.example.impl.AreaCodeService"
                      check="false" registry="zookeeper" protocol="dubbo" timeout="15000"/>
 
-    <dubbo:reference id="appFooterNavService" interface="com.example.impl.AppFooterNavService"
-                     check="false" registry="zookeeper" protocol="dubbo" timeout="15000"/>
-
-
+   
 </beans>
