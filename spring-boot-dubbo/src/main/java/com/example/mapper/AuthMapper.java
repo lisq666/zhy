@@ -16,4 +16,6 @@ public interface AuthMapper {
     int updateByPrimaryKeySelective(Auth record);
 
     int updateByPrimaryKey(Auth record);
+
+    int countByLoginId(String loginId);
 }

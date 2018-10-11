@@ -8,6 +8,8 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+
 public class JsonUtils {
 
     public static final String JSON = "JSON";
@@ -63,6 +65,26 @@ public class JsonUtils {
         } catch (JsonProcessingException e) {
             logger.error("toJSON JsonProcessingException：{}", e.getMessage(), e);
             return EMPTY;
+        }
+    }
+
+    /**
+     * JSON --> Object 方法
+     *
+     * @param source  json字符串
+     * @param classes 映射Java Class
+     * @param <T>     target Object Type
+     * @return target Object Type
+     */
+    public <T> T deserialize(String source, Class<T> classes) {
+        if (StringUtils.isBlank(source)) {
+            return null;
+        }
+        try {
+            return objectMapper.readValue(source, classes);
+        } catch (IOException e) {
+            logger.error("toObject IOException：{}", e.getMessage(), e);
+            return null;
         }
     }
 }

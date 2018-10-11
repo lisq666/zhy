@@ -16,4 +16,6 @@ public interface MallUserInfoMapper {
     int updateByPrimaryKeySelective(MallUserInfo record);
 
     int updateByPrimaryKey(MallUserInfo record);
+
+    String selectByMobile(String mobile);
 }

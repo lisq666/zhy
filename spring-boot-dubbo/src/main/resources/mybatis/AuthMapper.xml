@@ -139,4 +139,8 @@
       isPassModified = #{ispassmodified,jdbcType=VARCHAR}
     where userid = #{userid,jdbcType=CHAR}
   </update>
+
+  <select id="countByLoginId" resultType="java.lang.Integer" parameterType="java.lang.String">
+       select count(*) from b2c_auth where login_id = #{loginId,jdbcType=CHAR}
+  </select>
 </mapper>

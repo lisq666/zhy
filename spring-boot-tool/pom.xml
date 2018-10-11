@@ -24,11 +24,6 @@
 			<version>1.2.3</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>5.0.9.RELEASE</version>
-		</dependency>
-		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib</artifactId>
 			<version>3.2.1</version>
@@ -43,7 +38,18 @@
 			<artifactId>jackson-dataformat-xml</artifactId>
 			<version>2.4.1</version>
 		</dependency>
-	</dependencies>
+
+		<dependency>
+			<groupId>com.erypto.encoder</groupId>
+			<artifactId>uia-encoder</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.10</version>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>

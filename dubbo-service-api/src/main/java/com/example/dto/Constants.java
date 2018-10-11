@@ -3,46 +3,43 @@ package com.example.dto;
 public final class Constants {
 
     /**
-     *渠道类型 0默认值代表不限渠道
+     *全国mallId
      */
-    public static final String CHANNEL_TYPE_UNLIMITED= "0";
+    public static final String MALL_ID= "00000000";
     /**
-     *
-     *渠道类型 2默认值代表手机端
+     *注册渠道  1 移动互联网
      */
-    public static final String CHANNEL_TYPE_MOBILE= "2";
-
-
+    public static final String REGISTER_CHANNEL= "1";
     /**
-     * 图片规格尺寸
+     *注册方式  15 是智慧云注册
      */
-    public interface ProductPicSize {
-        /**
-         * 1-微型规格
-         */
-        public static final String MIN = "1";
-
-        /**
-         * 2-小图规格
-         */
-        public static final String SMALL = "2";
-
-        /**
-         * 3-中型规格
-         */
-        public static final String MEDIUM = "3";
-
-        /**
-         * 4-大型规格
-         */
-        public static final String LARGE = "4";
-
-        /**
-         * 5-原图规格
-         */
-        public static final String ORIGINAL = "5";
-    }
-
-
-
+    public static final String REGISTER_WAY= "15";
+    /**
+     *用户类型 0 非实名认证
+     */
+    public static final String USER_TYPE= "0";
+    /**
+     *是否可用： 1 是
+     */
+    public static final String IS_ENABLE= "1";
+    /**
+     *是否锁定：0 否
+     */
+    public static final String IS_LOCK= "0";
+    /**
+     *是否访问过我的商城  0 未访问
+     */
+    public static final String IS_VISITED= "0";
+    /**
+     *是否可编辑 0 是
+     */
+    public static final String IS_CANEDIT= "0";
+    /**
+     * 认证USERID
+     */
+    public static final String AUTH_USERID="AuthUserid";
+    /**
+     * UIA当前系统编号
+     */
+    public static final String CUR_SYS_CODE="73b731z1";
 }

@@ -18,5 +18,5 @@ http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
     <dubbo:reference id="mallUserInfoService" interface="com.example.service.MallUserInfoService"
                      check="false" registry="zookeeper" protocol="dubbo" timeout="15000"/>
 
-   
+
 </beans>
