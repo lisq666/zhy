@@ -113,6 +113,7 @@ public class PromotionServiceImpl implements PromotionService {
         }catch (Exception e){
             e.printStackTrace();
         }
+
         return ResultData.success(jsonUtils.serialize(couponRecord));
     }
 }
