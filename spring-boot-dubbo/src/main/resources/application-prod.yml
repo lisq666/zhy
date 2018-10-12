@@ -3,7 +3,7 @@ server:
 #数据库连接配置
 spring:
   datasource:
-    url: jdbc:mysql://10.1.102.155:3306/gxyj_166?useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://10.1.102.155:3306/gxyj_166?useUnicode=true&characterEncoding=utf8&useSSL=false
     username: gxyj_166_qa
     password: EQIn2iQ5UqCiVrdzb0nW
     driver-class-name: com.mysql.jdbc.Driver

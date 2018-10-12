@@ -1,5 +1,6 @@
 package com.example.Exception;
 
+import com.example.vo.json.JsonResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.ConversionNotSupportedException;

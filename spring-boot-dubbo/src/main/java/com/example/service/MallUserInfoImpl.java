@@ -48,7 +48,7 @@ public class MallUserInfoImpl implements MallUserInfoService {
         //校验该手机号本地库是否存在
         MallUserInfo mallUserInfo = mallUserInfoMapper.selectByMobile(mobile);
         if(mallUserInfo != null){//若存在
-            logger.info("手机号:"+mobile+"存在userId:"+mallUserInfo.getUserid());
+            logger.info("手机号:{},存在userId:{}",mobile,mallUserInfo.getUserid());
             Auth au = authMapper.selectByPrimaryKey(mallUserInfo.getUserid());
             return new UserVo(AESUtil.Encrypt(au.getUserid()),au.getPassword());
         }
@@ -57,7 +57,7 @@ public class MallUserInfoImpl implements MallUserInfoService {
         Auth auth = addAuth(newUserId,custPwd);
         addUserInfo(mobile,newUserId);
         addUserBingding(mobile,newUserId);
-        syncUia(auth,custPwd,mobile);
+        //syncUia(auth,custPwd,mobile);
         return new UserVo(AESUtil.Encrypt(auth.getUserid()),auth.getPassword());
     }
 
