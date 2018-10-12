@@ -5,11 +5,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 
 public class AESUtil {
 
     private static final String ALGORITHM = "AES";
-    private static final String KEY = "1234567890123456";
     private static final String ENCODING = "UTF-8";
 
     /**
@@ -19,7 +20,7 @@ public class AESUtil {
      * @throws Exception
      */
     public static String Encrypt(String sSrc) throws Exception {
-        byte[] raw = KEY.getBytes(ENCODING);
+        byte[] raw = getSecret().getBytes(ENCODING);
         SecretKeySpec skeySpec = new SecretKeySpec(raw, ALGORITHM);
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
         cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
@@ -34,7 +35,7 @@ public class AESUtil {
      * @throws Exception
      */
     public static String Decrypt(String sSrc) throws Exception {
-        byte[] raw = KEY.getBytes(ENCODING);
+        byte[] raw = getSecret().getBytes(ENCODING);
         SecretKeySpec skeySpec = new SecretKeySpec(raw, ALGORITHM);
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
         cipher.init(Cipher.DECRYPT_MODE, skeySpec);
@@ -43,6 +44,12 @@ public class AESUtil {
         String originalString = new String(original,ENCODING);
         return originalString;
 
+    }
+
+    //读取key.properties里的ZHY.AES.KEY的值
+    private static String getSecret(){
+        ResourceBundle bundle= PropertyResourceBundle.getBundle("key");
+        return bundle.getString("zhy.aes.key");
     }
 
 }
