@@ -1,8 +1,8 @@
 server:
-  port: 8081
+  port: 8811
 
 dubbo:
     application:
           name: zhy-consumer
     registry:
-          address: 10.1.102.164:2181
+          address: 10.1.102.166:2181
