@@ -45,6 +45,7 @@
 			<scope>test</scope>
 		</dependency>
 		<!--集成duubo-->
+
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>dubbo</artifactId>
@@ -87,7 +88,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-
-
 </project>
