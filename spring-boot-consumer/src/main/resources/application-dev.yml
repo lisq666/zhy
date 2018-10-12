@@ -5,4 +5,4 @@ dubbo:
     application:
           name: zhy-consumer
     registry:
-          address: 10.1.102.163:2181
+          address: 10.1.102.166:2181
