@@ -11,11 +11,9 @@ import com.example.model.Auth;
 import com.example.model.MallUserInfo;
 import com.example.model.UiaExternalUser;
 import com.example.model.UserBinding;
-import com.example.utils.Crypt;
-import com.example.utils.JsonUtils;
-import com.example.utils.LoginIdGenerator;
-import com.example.utils.UiaEncoder;
+import com.example.utils.*;
 import com.example.utils.keygen.SerialGeneratorMgr;
+import com.example.vo.json.UserVo;
 import com.example.vo.parameter.uia.UiaUserInfoVp;
 import com.example.vo.parameter.uia.UiaVp;
 import org.slf4j.Logger;
@@ -46,12 +44,13 @@ public class MallUserInfoImpl implements MallUserInfoService {
     private UserRegisterServicePrx userRegisterServicePrx;
 
     @Override
-    public String userRegister(String mobile,String custPwd) throws Exception{
+    public UserVo userRegister(String mobile, String custPwd) throws Exception{
         //校验该手机号本地库是否存在
-        String userId = mallUserInfoMapper.selectByMobile(mobile);
-        if(StringUtils.isNotEmpty(userId)){//若存在
-            logger.info("手机号:"+mobile+"存在userId:"+userId);
-            return userId;
+        MallUserInfo mallUserInfo = mallUserInfoMapper.selectByMobile(mobile);
+        if(mallUserInfo != null){//若存在
+            logger.info("手机号:"+mobile+"存在userId:"+mallUserInfo.getUserid());
+            Auth au = authMapper.selectByPrimaryKey(mallUserInfo.getUserid());
+            return new UserVo(AESUtil.Encrypt(au.getUserid()),au.getPassword());
         }
         SerialGeneratorMgr serialGeneratorMgr = new SerialGeneratorMgr();
         String newUserId = serialGeneratorMgr.getSerialKey(Constants.AUTH_USERID).trim();
@@ -59,7 +58,7 @@ public class MallUserInfoImpl implements MallUserInfoService {
         addUserInfo(mobile,newUserId);
         addUserBingding(mobile,newUserId);
         syncUia(auth,custPwd,mobile);
-        return newUserId;
+        return new UserVo(AESUtil.Encrypt(auth.getUserid()),auth.getPassword());
     }
 
     /**
@@ -83,7 +82,7 @@ public class MallUserInfoImpl implements MallUserInfoService {
         auth.setUserType(Constants.USER_TYPE);//0:个人会员
         auth.setIsEnable(Constants.IS_ENABLE);//1:可用
         auth.setIsLock(Constants.IS_LOCK);//是否锁定：0 否；1 是
-        //authMapper.insertSelective(auth);
+        authMapper.insertSelective(auth);
         return auth;
     }
 
@@ -99,7 +98,7 @@ public class MallUserInfoImpl implements MallUserInfoService {
         ub.setUserid(userId);
         ub.setCreateTime(new Date());
         ub.setUpdateTime(new Date());
-        //userBindingMapper.insertSelective(ub);
+        userBindingMapper.insertSelective(ub);
     }
 
     /**
@@ -121,7 +120,7 @@ public class MallUserInfoImpl implements MallUserInfoService {
         mallUserInfo.setIsCanEdit(Constants.IS_CANEDIT);//0 - 可以编辑
         mallUserInfo.setRegisterTime(new Date());
         mallUserInfo.setModifyTime(new Date());
-        //mallUserInfoMapper.insertSelective(mallUserInfo);
+        mallUserInfoMapper.insertSelective(mallUserInfo);
         return userId;
     }
 
@@ -143,21 +142,21 @@ public class MallUserInfoImpl implements MallUserInfoService {
         ui.setUserId(auth.getUserid());
         ui.setUserType("0");//商城用户
         ui.setMallid(Constants.MALL_ID);
-        //uiaExternalUserMapper.insertSelective(ui);
+        uiaExternalUserMapper.insertSelective(ui);
 
         //同步信息到UIA系统
         UiaVp uiaVp = new UiaVp();
         uiaVp.setCurUserId("0");
         uiaVp.setCurSysCode(Constants.CUR_SYS_CODE);
         uiaVp.setSyncType("0");
-          List<UiaUserInfoVp> dataList = new ArrayList<UiaUserInfoVp>();
-            UiaUserInfoVp uiaUserInfoVp = new UiaUserInfoVp();
-            uiaUserInfoVp.setLoginUserName(auth.getLoginId());
-            uiaUserInfoVp.setLoginMobilePhone(mobile);
-            uiaUserInfoVp.setUserType("1");//外部用户
-            uiaUserInfoVp.setMobilePhone(mobile);
-            uiaUserInfoVp.setPwd(pwd);
-          dataList.add(uiaUserInfoVp);
+        List<UiaUserInfoVp> dataList = new ArrayList<UiaUserInfoVp>();
+        UiaUserInfoVp uiaUserInfoVp = new UiaUserInfoVp();
+        uiaUserInfoVp.setLoginUserName(auth.getLoginId());
+        uiaUserInfoVp.setLoginMobilePhone(mobile);
+        uiaUserInfoVp.setUserType("1");//外部用户
+        uiaUserInfoVp.setMobilePhone(mobile);
+        uiaUserInfoVp.setPwd(pwd);
+        dataList.add(uiaUserInfoVp);
         uiaVp.setDataList(dataList);
         logger.info("同步uia用户信息参数" + jsonUtils.serialize(uiaVp));
 
@@ -167,20 +166,17 @@ public class MallUserInfoImpl implements MallUserInfoService {
         logger.info("同步uia用户信息返回结果rtnCode" + rtnCode);
         if(!"000000".equals(rtnCode)){//同步失败
             logger.error("注册用户同步到UIA失败！" + rtn);
-            throw new Exception(rtnCode);
-        }else{
-            try{//同步成功
-                List list = (List) mp.get("succDataList");
-                Map m = (Map) list.get(0);
-                UiaExternalUser ui1 = new UiaExternalUser();
-                ui1.setId(id);
-                ui1.setUiaId(m.get("userId")+"");
-                ui1.setStatus("1");
-                uiaExternalUserMapper.updateByPrimaryKeySelective(ui1);
-            }catch(Exception e){
-                throw new Exception(rtnCode);
-            }
+            throw new Exception(rtnCode+"同步到UIA失败");
         }
+        //同步成功则变更uia中间表
+        List list = (List) mp.get("succDataList");
+        Map m = (Map) list.get(0);
+        UiaExternalUser ui1 = new UiaExternalUser();
+        ui1.setId(id);
+        ui1.setUiaId((String) m.get("userId"));
+        ui1.setStatus("1");
+        uiaExternalUserMapper.updateByPrimaryKeySelective(ui1);
+
     }
 
 

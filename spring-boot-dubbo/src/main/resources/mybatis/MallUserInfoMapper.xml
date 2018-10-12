@@ -434,8 +434,11 @@
     where USERID = #{userid,jdbcType=CHAR}
   </update>
 
-  <select id="selectByMobile" resultType="java.lang.String" parameterType="java.lang.String" >
-    select USERID from b2c_mall_user_info where MOBILE = #{mobile,jdbcType=CHAR}
+  <select id="selectByMobile" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from b2c_mall_user_info
+    where MOBILE = #{mobile,jdbcType=CHAR}
   </select>
 
 </mapper>

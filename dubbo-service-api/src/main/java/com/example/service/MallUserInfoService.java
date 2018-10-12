@@ -1,7 +1,9 @@
 package com.example.service;
 
+import com.example.vo.json.UserVo;
+
 public interface MallUserInfoService {
 
 
-    String userRegister(String mobile,String password) throws Exception;
+    UserVo userRegister(String mobile, String password) throws Exception;
 }
