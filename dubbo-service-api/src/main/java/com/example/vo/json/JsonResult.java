@@ -27,7 +27,7 @@ public class JsonResult implements Serializable{
         return success("");
     }
     public static JsonResult success(Object data) {
-        return new JsonResult(00000, CONTENT_SUCCESS, data);
+        return new JsonResult(0, CONTENT_SUCCESS, data);
     }
 
     public static JsonResult failed() {
