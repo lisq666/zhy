@@ -1,6 +1,9 @@
 package com.example.service;
 
+import com.example.model.CouponDispatch;
 import com.example.model.CouponDispatchDetail;
+import com.example.model.Promotion;
+import com.example.vo.parameter.ITMCouponVp;
 
 public interface CouponDispatchDetailService {
 
@@ -9,7 +12,7 @@ public interface CouponDispatchDetailService {
      * @return
      * @throws Exception
      */
-    CouponDispatchDetail ITMCreateInitCouponDispatchDetail() throws Exception;
+    CouponDispatchDetail ITMCreateInitCouponDispatchDetail(ITMCouponVp vp, CouponDispatch dispatch) throws Exception;
 
     /**
      * 优惠券派发详情入库

@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.mapper.AuthMapper;
+import com.example.model.Auth;
 import com.example.utils.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,9 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private AuthMapper authMapper;
 
-
+    public Auth getAuthByUserId(String userId) throws Exception{
+        return authMapper.selectByPrimaryKey(userId);
+    }
 
 
 }

@@ -1,9 +1,16 @@
 package com.example.service;
 
+import com.example.dto.Constants;
+import com.example.dto.GeneratorConstants;
+import com.example.dto.PromotionConstants;
+import com.example.dto.TimeConstants;
 import com.example.mapper.PromotionMapper;
 import com.example.model.*;
 import com.example.utils.JsonUtils;
 import com.example.utils.StringUtils;
+import com.example.utils.keygen.SerialGeneratorMgr;
+import com.example.vo.json.CouponVo;
+import com.example.vo.json.JsonResult;
 import com.example.vo.json.ResultData;
 import com.example.vo.parameter.ITMCouponVp;
 import org.slf4j.Logger;
@@ -12,14 +19,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 @Service("promotionService")
 @Transactional
 public class PromotionServiceImpl implements PromotionService {
 
-    protected static final Logger logger = LoggerFactory.getLogger(PromotionServiceImpl.class);
-    protected static final JsonUtils jsonUtils = new JsonUtils(JsonUtils.JSON).ignoreEmpty();
+    private static final Logger logger = LoggerFactory.getLogger(PromotionServiceImpl.class);
+    private static final JsonUtils jsonUtils = new JsonUtils(JsonUtils.JSON).ignoreEmpty();
 
     @Autowired
     private PromotionMapper promotionMapper;
@@ -38,9 +48,51 @@ public class PromotionServiceImpl implements PromotionService {
      * @return
      * @throws Exception
      */
-    public Promotion ITMCreateInitPromotion() throws Exception{
+    public Promotion ITMCreateInitPromotion(ITMCouponVp vp) throws Exception{
+        if(null == vp){
+            logger.error("The incoming parameter is empty , 传入参数为空");
+            throw new NullPointerException("The incoming parameter is empty , 传入参数为空");
+        }
+        SerialGeneratorMgr serialGeneratorMgr = new SerialGeneratorMgr();
+        String promotionId = serialGeneratorMgr.getSerialKey(GeneratorConstants.PROMOTION_SERIAL).trim();
+       /* "promotionId": "201810120155",
+        "PROMOTION_NAME": "ITMTest",
+        "PROMOTION_START_TIME": "2018-10-12 11:35:49",
+        "PROMOTION_END_TIME": "2018-10-12 23:59:59",
+        "PROMOTION_STATUS": "02",
+        "PROMOTION_LAUNCHER": "017516",
+        "PROMOTION_CREATE_TIME": "2018-10-12 11:29:04",
+        "PROMOTION_DEFINE_ID": "PD0001",
+        "CREATE_ID": "017516",
+        "MODIFY_TIME": "2018-10-12 11:33:19",
+        "MODIFY_ID": "017516",
+        "SPONSOR": "00",
+        "PROMOTION_CHANNEL": "0",
+        "mall_id": "00000000",
+        "magnitude": "1",
+        "releaseStatus": "5",
+        */
 
-        return null;
+       Promotion promotion = new Promotion();
+       promotion.setPromotionId(promotionId);
+       promotion.setPromotionName(vp.getPromotionName());
+       promotion.setPromotionStartTime(new Date(new Date().getTime() + TimeConstants.HALF_HOUR));
+       promotion.setPromotionEndTime(vp.getCouponEndTime());
+       promotion.setPromotionStatus(PromotionConstants.PROMOTION_STATUS_WORKON);
+       promotion.setPromotionLauncher(PromotionConstants.ITM_PROMOTION_LAUNCHER);
+       promotion.setPromotionCreateTime(new Date());
+       promotion.setPromotionDefineId(PromotionConstants.PRMOTION_DEFINE_ID_COUPON);
+       promotion.setCreateId(PromotionConstants.ITM_PROMOTION_LAUNCHER);
+       promotion.setModifyTime(new Date());
+       promotion.setModifyId(PromotionConstants.ITM_PROMOTION_LAUNCHER);
+       promotion.setSponsor(PromotionConstants.PRMOTION_SPONSOR_MALL);
+       promotion.setPromotionChannel(PromotionConstants.PROMOTION_CHANNEL_ALL);
+       promotion.setMallId(Constants.MALL_ID);
+       // 活动发送数量
+       promotion.setMagnitude("1");
+       promotion.setReleasestatus("5");
+
+       return promotion;
     }
 
     /**
@@ -61,59 +113,79 @@ public class PromotionServiceImpl implements PromotionService {
      * @throws Exception
      */
     @Override
-    public ResultData ITMReceiveCoupon(ITMCouponVp vp) throws Exception {
+    public JsonResult ITMReceiveCoupon(ITMCouponVp vp) throws Exception {
         // 判断参数非空
         if(null == vp || null == vp.getCouponAmount() || null == vp.getCouponEndTime()
-            || StringUtils.isBlank(vp.getCouponId()) || StringUtils.isBlank(vp.getPromotionName())
-            || StringUtils.isBlank(vp.getUserId()) ){
+            || StringUtils.isBlank(vp.getPromotionName()) || StringUtils.isBlank(vp.getUserId()) ){
             logger.error("Incoming parameter exception, 传入参数异常");
-            return ResultData.failure("Incoming parameter exception, 传入参数异常");
+            return JsonResult.failed("传入参数异常");
         }
 
-        // 1 初始化活动实例 Promotion
-        Promotion promotion = ITMCreateInitPromotion();
-        // 2 初始化活动参数实例 PromotionParamValue
-        PromotionParamValue promotionParamValue = promotionParamValueService.ITMCeeateInitPromotionParamValue();
-        // 3 初始化优惠券实例 CouponRecord
-        CouponRecord couponRecord = couponRecordService.ITMCreateInitCouponRecord(vp.getCouponId());
-        // 4 初始化优惠券派发实例 CouponDispatch
-        CouponDispatch couponDispatch = couponDispatchService.ITMCreateInitCouponDispatch();
-        // 5 初始化优惠券派发详情实例
-        CouponDispatchDetail couponDispatchDetail = couponDispatchDetailService.ITMCreateInitCouponDispatchDetail();
+        // 校验数据库中是否有次活动的信息
+        boolean promotionFlag = true;
+        Promotion promotion = promotionMapper.checkPromotionName(vp.getPromotionName());
+        if(null != promotion && !StringUtils.isBlank(promotion.getPromotionId())){
+            promotionFlag = false;
+        }
+
+        List<PromotionParamValue> paramValueList = new ArrayList<PromotionParamValue>(15);
+
+        if(promotionFlag){
+            // 1 初始化活动实例 Promotion
+            promotion = ITMCreateInitPromotion(vp);
+            // 2 初始化活动参数实例 PromotionParamValue
+            paramValueList = promotionParamValueService.ITMCreateInitPromotionParamValue(promotion, vp);
+        }
+        // 3 初始化优惠券派发实例 CouponDispatch
+        CouponDispatch couponDispatch = couponDispatchService.ITMCreateInitCouponDispatch(promotion.getPromotionId(), vp.getCouponAmount());
+        // 4 初始化优惠券派发详情实例
+        CouponDispatchDetail couponDispatchDetail = couponDispatchDetailService.ITMCreateInitCouponDispatchDetail(vp, couponDispatch);
+        // 5 初始化优惠券实例 CouponRecord
+        CouponRecord couponRecord = couponRecordService.ITMCreateInitCouponRecord(vp, couponDispatchDetail);
 
         // 初始化实例 非空校验
-        if(null == promotion || null == promotionParamValue || null == couponRecord
+        if(null == promotion || (null == paramValueList && paramValueList.size() > 0) || null == couponRecord
                 || null == couponDispatch || null == couponDispatchDetail){
             logger.error("Create initialization instance error, 创建初始化实例错误");
-            return  ResultData.failure("Create initialization instance error, 创建初始化实例错误");
+            return  JsonResult.failed(10001, "创建初始化实例错误");
         }
 
         // 插入数据库
         try {
-            if(insertPromotion(promotion) <= 0){
-                logger.error("insert Promotion failure, 数据库插入活动信息失败");
-                return ResultData.failure("insert Promotion failure, 数据库插入活动信息失败");
-            }
-            if(promotionParamValueService.insertPromotionParamValue(promotionParamValue) <= 0){
-                logger.error("insert PromotionParamValue failure, 数据库插入活动参数信息失败");
-                return  ResultData.failure("insert PromotionParamValue failure, 数据库插入活动参数信息失败");
+            if(promotionFlag){
+                if(insertPromotion(promotion) <= 0){
+                    logger.error("insert Promotion failure, 数据库插入活动信息失败");
+                    return JsonResult.failed(10002, "数据库插入活动信息失败");
+                }
+                for (PromotionParamValue value: paramValueList) {
+                    if(promotionParamValueService.insertPromotionParamValue(value) <= 0){
+                        logger.error("insert PromotionParamValue failure, 数据库插入活动参数信息失败");
+                        return  JsonResult.failed(10003, "数据库插入活动参数信息失败");
+                    }
+                }
             }
             if(couponRecordService.insertCouponRecord(couponRecord) <= 0){
                 logger.error("insert CouponRecord failure, 数据库插入优惠券信息失败");
-                return  ResultData.failure("insert CouponRecord failure, 数据库插入优惠券信息失败");
+                return  JsonResult.failed(10004, "数据库插入优惠券信息失败");
             }
             if(couponDispatchService.insertCouponDispatch(couponDispatch) <= 0){
                 logger.error("insert CouponDispatch failure, 数据库插入优惠券派发信息失败");
-                return  ResultData.failure("insert CouponDispatch failure, 数据库插入优惠券派发信息失败");
+                return  JsonResult.failed(10005, "数据库插入优惠券派发信息失败");
             }
             if(couponDispatchDetailService.insertCouponDispatchDetail(couponDispatchDetail) <= 0){
                 logger.error("insert CouponDispatchDetail failure, 数据库插入优惠券派发详情信息失败");
-                return  ResultData.failure("insert CouponDispatchDetail failure, 数据库插入优惠券派发详情信息失败");
+                return  JsonResult.failed(10006, "数据库插入优惠券派发详情信息失败");
             }
         }catch (Exception e){
             e.printStackTrace();
         }
 
-        return ResultData.success(jsonUtils.serialize(couponRecord));
+        CouponVo vo = couponRecordService.couponToVo(couponRecord);
+
+        return JsonResult.success(vo);
     }
+
+
+
 }
+

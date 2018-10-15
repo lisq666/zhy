@@ -19,4 +19,6 @@ public interface PromotionMapper {
     int updateByPrimaryKeyWithBLOBs(Promotion record);
 
     int updateByPrimaryKey(Promotion record);
+
+    Promotion checkPromotionName(String promotionName);
 }

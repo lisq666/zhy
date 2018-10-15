@@ -426,4 +426,14 @@
       and PROMOTION_START_TIME = #{promotionStartTime,jdbcType=TIMESTAMP}
       and PROMOTION_END_TIME = #{promotionEndTime,jdbcType=TIMESTAMP}
   </update>
+
+  <select id="checkPromotionName" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from b2c_promotion
+    where PROMOTION_NAME = #{promotionName,jdbcType=VARCHAR}
+
+  </select>
 </mapper>

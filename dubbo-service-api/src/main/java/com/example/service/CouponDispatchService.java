@@ -9,7 +9,7 @@ public interface CouponDispatchService {
      * @return
      * @throws Exception
      */
-    CouponDispatch ITMCreateInitCouponDispatch() throws Exception;
+    CouponDispatch ITMCreateInitCouponDispatch(String promotionId, Integer couponAmount) throws Exception;
 
     Integer insertCouponDispatch(CouponDispatch couponDispatch) throws Exception;
 }
