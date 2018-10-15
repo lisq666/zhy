@@ -8,15 +8,9 @@ import org.apache.commons.codec.binary.Base64;
 
 public class Crypt {
 
-    //MkFDMENCRDlEQzYxODQ1MEM5NjVDMTQxNDBDQTVFOTc=
-    public static void main(String[] args) {
-        String userId = "201612020001033036";
-        String password = "qqqq1111";
-        encrypte(userId,password);
-        System.out.println(createRandomPwd());
-
-    }
-
+    private final static String[] PASSWORDS = {"1","2","3","4","5","6","7","8","9","0",
+            "a","b","c","d","e","f","g","h","j",
+            "Q","W","E","R","T","Y","U","P","K"};
     /**
      * 密码加密规则
      * @param userId
@@ -28,10 +22,6 @@ public class Crypt {
         String encryptedData = Base64.encodeBase64String(encryptedByte.getBytes());
         return encryptedData;
     }
-
-    private final static String[] PASSWORDS = {"1","2","3","4","5","6","7","8","9","0",
-            "a","b","c","d","e","f","g","h","j",
-            "Q","W","E","R","T","Y","U","P","K"};
 
     /**
      * 生成随机密码

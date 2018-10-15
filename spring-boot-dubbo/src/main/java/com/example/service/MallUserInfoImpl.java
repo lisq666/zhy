@@ -1,6 +1,5 @@
 package com.example.service;
 
-import com.alibaba.dubbo.common.utils.StringUtils;
 import com.echinacoop.uia.dubbo.client.auth.consumer.UserRegisterServicePrx;
 import com.example.dto.Constants;
 import com.example.mapper.AuthMapper;
@@ -83,6 +82,7 @@ public class MallUserInfoImpl implements MallUserInfoService {
         auth.setIsEnable(Constants.IS_ENABLE);//1:可用
         auth.setIsLock(Constants.IS_LOCK);//是否锁定：0 否；1 是
         authMapper.insertSelective(auth);
+        logger.info("注册inserAuth:{}",jsonUtils.serialize(auth));
         return auth;
     }
 
@@ -99,6 +99,7 @@ public class MallUserInfoImpl implements MallUserInfoService {
         ub.setCreateTime(new Date());
         ub.setUpdateTime(new Date());
         userBindingMapper.insertSelective(ub);
+        logger.info("注册UserBingding:{}",jsonUtils.serialize(ub));
     }
 
     /**
@@ -121,6 +122,7 @@ public class MallUserInfoImpl implements MallUserInfoService {
         mallUserInfo.setRegisterTime(new Date());
         mallUserInfo.setModifyTime(new Date());
         mallUserInfoMapper.insertSelective(mallUserInfo);
+        logger.info("注册insertUserInfo:{}",jsonUtils.serialize(mallUserInfo));
         return userId;
     }
 
@@ -143,7 +145,7 @@ public class MallUserInfoImpl implements MallUserInfoService {
         ui.setUserType("0");//商城用户
         ui.setMallid(Constants.MALL_ID);
         uiaExternalUserMapper.insertSelective(ui);
-
+        logger.info("注册insertUiaExternalUser:{}",jsonUtils.serialize(ui));
         //同步信息到UIA系统
         UiaVp uiaVp = new UiaVp();
         uiaVp.setCurUserId("0");
