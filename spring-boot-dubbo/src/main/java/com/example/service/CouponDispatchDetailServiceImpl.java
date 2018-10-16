@@ -91,7 +91,7 @@ public class CouponDispatchDetailServiceImpl implements CouponDispatchDetailServ
 
     @Override
     public Integer insertCouponDispatchDetail(CouponDispatchDetail couponDispatchDetail) throws Exception {
-        if(null !=couponDispatchDetail) couponDispatchDetailMapper.insertSelective(couponDispatchDetail);
+        if(null !=couponDispatchDetail) return couponDispatchDetailMapper.insertSelective(couponDispatchDetail);
         return 0;
     }
 }
