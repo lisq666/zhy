@@ -434,6 +434,6 @@
     <include refid="Blob_Column_List" />
     from b2c_promotion
     where PROMOTION_NAME = #{promotionName,jdbcType=VARCHAR}
-
+    limit 1
   </select>
 </mapper>
