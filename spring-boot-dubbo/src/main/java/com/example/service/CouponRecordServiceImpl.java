@@ -7,9 +7,11 @@ import com.example.dto.TimeConstants;
 import com.example.mapper.CouponRecordMapper;
 import com.example.model.CouponDispatchDetail;
 import com.example.model.CouponRecord;
+import com.example.utils.BeanUtils;
 import com.example.utils.AESUtil;
 import com.example.utils.JsonUtils;
 import com.example.utils.keygen.SerialGeneratorMgr;
+import com.example.vo.json.CouponRecordVo;
 import com.example.vo.json.CouponVo;
 import com.example.vo.parameter.ITMCouponVp;
 import org.slf4j.Logger;
@@ -18,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Date;
+import java.util.*;
 
 @Service("couponRecordService")
 @Transactional
@@ -113,5 +115,21 @@ public class CouponRecordServiceImpl implements CouponRecordService {
         }
 
         return vo;
+    }
+
+    @Override
+    public List<CouponRecordVo> selectReceiveCouponListByCouponIds(String[] couponIds) throws Exception{
+        Map paramMap = new HashMap();
+        paramMap.put("couponIds",couponIds);
+        List<CouponRecordVo> targetCouponRecordList = new ArrayList<>();
+        List<CouponRecord> resourcesCouponRecordList = couponRecordMapper.selectReceiveCouponListByCouponIds(paramMap);
+        for(CouponRecord tempCouponRecord : resourcesCouponRecordList){
+            //针对券编号进行AES加密
+            tempCouponRecord.setCouponId(AESUtil.Encrypt(tempCouponRecord.getCouponId()));
+            CouponRecordVo couponRecordVo = new CouponRecordVo();
+            BeanUtils.copyA2B(tempCouponRecord,couponRecordVo);
+            targetCouponRecordList.add(couponRecordVo);
+        }
+        return targetCouponRecordList;
     }
 }

@@ -47,7 +47,17 @@
     from b2c_coupon_record
     where COUPON_ID = #{couponId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+
+    <select id="selectReceiveCouponListByCouponIds" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select * from b2c_coupon_record
+        where COUPON_ID in
+        <foreach collection="couponIds" item="couponId" index="index"
+                 open="(" close=")" separator=",">
+            #{couponId}
+        </foreach>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from b2c_coupon_record
     where COUPON_ID = #{couponId,jdbcType=VARCHAR}
   </delete>

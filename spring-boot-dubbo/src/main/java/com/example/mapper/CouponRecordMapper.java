@@ -3,6 +3,9 @@ package com.example.mapper;
 import com.example.model.CouponRecord;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Map;
+
 @Repository
 public interface CouponRecordMapper {
     int deleteByPrimaryKey(String couponId);
@@ -16,4 +19,6 @@ public interface CouponRecordMapper {
     int updateByPrimaryKeySelective(CouponRecord record);
 
     int updateByPrimaryKey(CouponRecord record);
+
+    List<CouponRecord> selectReceiveCouponListByCouponIds(Map couponIds);
 }

@@ -24,4 +24,5 @@ public interface PromotionService {
      * @throws Exception
      */
     public Integer insertPromotion(Promotion promotion) throws Exception;
+
 }

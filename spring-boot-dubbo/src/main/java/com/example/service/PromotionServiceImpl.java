@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.alibaba.dubbo.common.json.JSONArray;
 import com.example.dto.Constants;
 import com.example.dto.GeneratorConstants;
 import com.example.dto.PromotionConstants;
@@ -14,15 +15,14 @@ import com.example.utils.keygen.SerialGeneratorMgr;
 import com.example.vo.json.CouponVo;
 import com.example.vo.json.JsonResult;
 import com.example.vo.parameter.ITMCouponVp;
+import jdk.nashorn.internal.scripts.JS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Service("promotionService")
