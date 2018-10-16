@@ -121,7 +121,7 @@ public class CouponRecordServiceImpl implements CouponRecordService {
     public List<CouponRecordVo> selectReceiveCouponListByCouponIds(String[] couponIds) throws Exception{
         Map paramMap = new HashMap();
         paramMap.put("couponIds",couponIds);
-        List<CouponRecordVo> targetCouponRecordList = new ArrayList<>();
+        List<CouponRecordVo> targetCouponRecordList = new ArrayList<CouponRecordVo>();
         List<CouponRecord> resourcesCouponRecordList = couponRecordMapper.selectReceiveCouponListByCouponIds(paramMap);
         for(CouponRecord tempCouponRecord : resourcesCouponRecordList){
             //针对券编号进行AES加密
