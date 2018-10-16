@@ -7,6 +7,7 @@ import com.example.dto.TimeConstants;
 import com.example.mapper.CouponRecordMapper;
 import com.example.model.CouponDispatchDetail;
 import com.example.model.CouponRecord;
+import com.example.utils.AESUtil;
 import com.example.utils.JsonUtils;
 import com.example.utils.keygen.SerialGeneratorMgr;
 import com.example.vo.json.CouponVo;
@@ -85,6 +86,11 @@ public class CouponRecordServiceImpl implements CouponRecordService {
         return  0;
     }
 
+    /**
+     * 优惠券信息转成返回值信息并加密
+     * @param record
+     * @return
+     */
     @Override
     public CouponVo couponToVo(CouponRecord record) {
         if(null == record){
@@ -94,20 +100,24 @@ public class CouponRecordServiceImpl implements CouponRecordService {
 
         CouponVo vo = new CouponVo();
 
-        vo.setAcceptedStatus(record.getAcceptedStatus());
-        vo.setChenel(record.getChenel());
-        vo.setCouponExpireDate(record.getCouponExpireDate());
-        vo.setCouponGenTime(record.getCouponGenTime());
-        vo.setCouponId(record.getCouponId());
-        vo.setCouponPutwayTime(record.getCouponPutwayTime());
-        vo.setCouponStatus(record.getCouponStatus());
-        vo.setCouponUsedAmount(record.getCouponUsedAmount());
-        vo.setDenominationAmount(record.getDenominationAmount());
-        vo.setDispatchedStatus(record.getDispatchedStatus());
-        vo.setMemberId(record.getMemberId());
-        vo.setPromotionId(record.getPromotionId());
-        vo.setRecordType(record.getRecordType());
-        vo.setSysSource(record.getSysSource());
+        try {
+            vo.setAcceptedStatus(record.getAcceptedStatus());
+            vo.setChenel(record.getChenel());
+            vo.setCouponExpireDate(record.getCouponExpireDate());
+            vo.setCouponGenTime(record.getCouponGenTime());
+            vo.setCouponId(AESUtil.Encrypt(record.getCouponId()));
+            vo.setCouponPutwayTime(record.getCouponPutwayTime());
+            vo.setCouponStatus(record.getCouponStatus());
+            vo.setCouponUsedAmount(record.getCouponUsedAmount());
+            vo.setDenominationAmount(record.getDenominationAmount());
+            vo.setDispatchedStatus(record.getDispatchedStatus());
+            vo.setMemberId(AESUtil.Encrypt(record.getMemberId()));
+            vo.setPromotionId(AESUtil.Encrypt(record.getPromotionId()));
+            vo.setRecordType(record.getRecordType());
+            vo.setSysSource(record.getSysSource());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return vo;
     }

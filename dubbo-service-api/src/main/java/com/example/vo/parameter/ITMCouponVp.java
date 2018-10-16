@@ -25,5 +25,13 @@ public class ITMCouponVp implements Serializable {
      * 活动名称
      */
     private String promotionName;
+    /**
+     * 时间戳
+     */
+    private String timeStamp;
+    /**
+     * 签名
+     */
+    private String sign;
 
 }

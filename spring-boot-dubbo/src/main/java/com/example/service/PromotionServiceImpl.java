@@ -7,6 +7,7 @@ import com.example.dto.PromotionConstants;
 import com.example.dto.TimeConstants;
 import com.example.mapper.PromotionMapper;
 import com.example.model.*;
+import com.example.utils.AESUtil;
 import com.example.utils.JsonUtils;
 import com.example.utils.StringUtils;
 import com.example.utils.keygen.SerialGeneratorMgr;
@@ -118,9 +119,10 @@ public class PromotionServiceImpl implements PromotionService {
         if(null == vp || null == vp.getCouponAmount() || null == vp.getCouponEndTime()
             || StringUtils.isBlank(vp.getPromotionName()) || StringUtils.isBlank(vp.getUserId()) ){
             logger.error("Incoming parameter exception, 传入参数异常");
-            return JsonResult.failed("传入参数异常");
+            return JsonResult.failed(10000,"传入参数异常");
         }
-
+        // 解密
+        vp = VpDecode(vp);
         // 校验数据库中是否有次活动的信息
         boolean promotionFlag = true;
         Promotion promotion = promotionMapper.checkPromotionName(vp.getPromotionName());
@@ -129,7 +131,6 @@ public class PromotionServiceImpl implements PromotionService {
         }
 
         List<PromotionParamValue> paramValueList = new ArrayList<PromotionParamValue>(15);
-
         if(promotionFlag){
             // 1 初始化活动实例 Promotion
             promotion = ITMCreateInitPromotion(vp);
@@ -185,6 +186,15 @@ public class PromotionServiceImpl implements PromotionService {
         return JsonResult.success(vo);
     }
 
+    private ITMCouponVp VpDecode(ITMCouponVp vp) {
+        try {
+            vp.setUserId(AESUtil.Decrypt(vp.getUserId()));
+            vp.setPromotionName(AESUtil.Decrypt(vp.getPromotionName()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return vp;
+    }
 
 
 }
