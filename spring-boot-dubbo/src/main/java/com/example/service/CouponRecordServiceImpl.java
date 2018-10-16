@@ -107,6 +107,7 @@ public class CouponRecordServiceImpl implements CouponRecordService {
         vo.setMemberId(record.getMemberId());
         vo.setPromotionId(record.getPromotionId());
         vo.setRecordType(record.getRecordType());
+        vo.setSysSource(record.getSysSource());
 
         return vo;
     }
