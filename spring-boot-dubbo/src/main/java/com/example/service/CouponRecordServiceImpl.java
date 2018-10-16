@@ -105,7 +105,6 @@ public class CouponRecordServiceImpl implements CouponRecordService {
             vo.setCouponGenTime(record.getCouponGenTime());
             vo.setCouponId(AESUtil.Encrypt(record.getCouponId()));
             vo.setCouponPutwayTime(record.getCouponPutwayTime());
-            vo.setCouponUsedAmount(record.getCouponUsedAmount());
             vo.setDenominationAmount(record.getDenominationAmount());
             vo.setMemberId(AESUtil.Encrypt(record.getMemberId()));
             vo.setPromotionId(AESUtil.Encrypt(record.getPromotionId()));
