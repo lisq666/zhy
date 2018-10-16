@@ -2,11 +2,12 @@ package com.example.vo.json;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
-public class CouponVo {
+public class CouponVo implements Serializable {
 
     private String couponId;
 

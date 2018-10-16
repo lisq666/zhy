@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.alibaba.dubbo.common.json.JSON;
 import com.example.dto.Constants;
 import com.example.dto.GeneratorConstants;
 import com.example.dto.PromotionConstants;
@@ -11,7 +12,6 @@ import com.example.utils.StringUtils;
 import com.example.utils.keygen.SerialGeneratorMgr;
 import com.example.vo.json.CouponVo;
 import com.example.vo.json.JsonResult;
-import com.example.vo.json.ResultData;
 import com.example.vo.parameter.ITMCouponVp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -164,10 +164,6 @@ public class PromotionServiceImpl implements PromotionService {
                     }
                 }
             }
-            if(couponRecordService.insertCouponRecord(couponRecord) <= 0){
-                logger.error("insert CouponRecord failure, 数据库插入优惠券信息失败");
-                return  JsonResult.failed(10004, "数据库插入优惠券信息失败");
-            }
             if(couponDispatchService.insertCouponDispatch(couponDispatch) <= 0){
                 logger.error("insert CouponDispatch failure, 数据库插入优惠券派发信息失败");
                 return  JsonResult.failed(10005, "数据库插入优惠券派发信息失败");
@@ -176,12 +172,16 @@ public class PromotionServiceImpl implements PromotionService {
                 logger.error("insert CouponDispatchDetail failure, 数据库插入优惠券派发详情信息失败");
                 return  JsonResult.failed(10006, "数据库插入优惠券派发详情信息失败");
             }
+            if(couponRecordService.insertCouponRecord(couponRecord) <= 0){
+                logger.error("insert CouponRecord failure, 数据库插入优惠券信息失败");
+                return  JsonResult.failed(10004, "数据库插入优惠券信息失败");
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
 
         CouponVo vo = couponRecordService.couponToVo(couponRecord);
-
+        logger.info(JSON.json(vo));
         return JsonResult.success(vo);
     }
 
