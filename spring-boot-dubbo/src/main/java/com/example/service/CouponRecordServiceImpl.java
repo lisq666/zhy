@@ -73,6 +73,8 @@ public class CouponRecordServiceImpl implements CouponRecordService {
         coupon.setCouponPutwayTime(new Date());
         coupon.setMallId(Constants.MALL_ID);
         coupon.setIsSendMessage(CouponConstants.IS_SEND_MESSAGE_NO);
+        // 设置为智慧云优惠券
+        coupon.setSysSource(1);
 
         return coupon;
     }

@@ -30,13 +30,16 @@
     <result column="CHANNEL_TYPE" property="channelType" jdbcType="VARCHAR" />
     <result column="mall_id" property="mallId" jdbcType="VARCHAR" />
     <result column="IS_SEND_MESSAGE" property="isSendMessage" jdbcType="CHAR" />
+    <result column="SYS_SOURCE" property="sysSource" jdbcType="NUMERIC" />
+    <result column="USED_SOURCE" property="usedSource" jdbcType="CHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     COUPON_ID, PROMOTION_ID, ORDER_ID, COUPON_AMOUNT, DENOMINATION_AMOUNT, COUPON_GEN_TIME, 
     COUPON_EXPIRE_DATE, ACCEPTED_STATUS, MEMBER_ID, MERCHANT_ID, COUPON_STATUS, COUPON_USED_AMOUNT, 
     ACCEPTED_DATE, ACCEPTED_AMOUNT, DISPATCHED_STATUS, DISPATCHED_DETAIL_ID, CHENEL, 
     RECORD_TYPE, FATHER_COUPON_ID, ROOT_COUPON_ID, RETURN_COUPON_RULE_ID, COUPON_PAY_AMT, 
-    COUPON_ORDER_ID, COUPON_RULE_ID, COUPON_PUTWAY_TIME, CHANNEL_TYPE, mall_id, IS_SEND_MESSAGE
+    COUPON_ORDER_ID, COUPON_RULE_ID, COUPON_PUTWAY_TIME, CHANNEL_TYPE, mall_id, IS_SEND_MESSAGE,
+    SYS_SOURCE, USED_SOURCE
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -157,6 +160,12 @@
       <if test="isSendMessage != null" >
         IS_SEND_MESSAGE,
       </if>
+      <if test="sysSource != null" >
+        SYS_SOURCE,
+      </if>
+      <if test="usedSource != null" >
+        USED_SOURCE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="couponId != null" >
@@ -243,6 +252,12 @@
       <if test="isSendMessage != null" >
         #{isSendMessage,jdbcType=CHAR},
       </if>
+      <if test="sysSource != null" >
+        #{sysSource,jdbcType=NUMERIC},
+      </if>
+      <if test="usedSource != null" >
+        #{usedSource,jdbcType=CHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.example.model.CouponRecord" >
@@ -328,6 +343,12 @@
       </if>
       <if test="isSendMessage != null" >
         IS_SEND_MESSAGE = #{isSendMessage,jdbcType=CHAR},
+      </if>
+      <if test="sysSource != null" >
+        SYS_SOURCE = #{sysSource,jdbcType=NUMERIC},
+      </if>
+      <if test="usedSource != null" >
+        USED_SOURCE = #{usedSource,jdbcType=CHAR},
       </if>
     </set>
     where COUPON_ID = #{couponId,jdbcType=VARCHAR}
