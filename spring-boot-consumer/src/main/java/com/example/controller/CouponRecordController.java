@@ -1,7 +1,9 @@
 package com.example.controller;
 
+import com.alibaba.dubbo.common.utils.StringUtils;
 import com.example.model.CouponRecord;
 import com.example.service.CouponRecordService;
+import com.example.utils.AESUtil;
 import com.example.utils.SecurityTool;
 import com.example.vo.json.CouponRecordVo;
 import com.example.vo.json.JsonResult;
@@ -54,6 +56,35 @@ public class CouponRecordController {
         }
         return  JsonResult.failed();
     }
+
+    /**
+     * 智慧云项目同步优惠券状态
+     * @param couponId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/couponRecord/syncCouponITM",method = {RequestMethod.POST})
+    public JsonResult synchroCouponITM(String couponId, String sign, String timeStamp){
+        // 非空校验
+        if(StringUtils.isBlank(couponId) || StringUtils.isBlank(sign) || StringUtils.isBlank(timeStamp)){
+            return JsonResult.failedParamaterEmpty();
+        }
+        // 验签
+        try {
+            Map<String, String> paramValues = new HashMap<String, String>();
+            paramValues.put("couponId", couponId);
+            String key = SecurityTool.getSignature(paramValues,null);
+            if(key.equals(sign)){
+                return couponRecordService.syncCouponStatus(AESUtil.Decrypt(couponId));
+            }
+            return JsonResult.failed(99999, "验签失败");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return JsonResult.failed("更新失败");
+    }
+
+
 
 }
 

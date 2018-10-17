@@ -4,7 +4,6 @@ import com.alibaba.dubbo.common.utils.StringUtils;
 import com.example.service.PromotionService;
 import com.example.utils.SecurityTool;
 import com.example.vo.json.JsonResult;
-import com.example.vo.json.UserVo;
 import com.example.vo.parameter.ITMCouponVp;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.HashMap;

@@ -34,4 +34,6 @@ public interface CouponRecordService {
      * @return 优惠券JSON集合
      */
     List<CouponRecordVo> selectReceiveCouponListByCouponIds(String[] couponIds) throws Exception;
+
+    JsonResult syncCouponStatus(String couponId);
 }
