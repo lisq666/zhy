@@ -129,6 +129,8 @@ public class CouponRecordServiceImpl implements CouponRecordService {
         for(CouponRecord tempCouponRecord : resourcesCouponRecordList){
             //针对券编号进行AES加密
             tempCouponRecord.setCouponId(AESUtil.Encrypt(tempCouponRecord.getCouponId()));
+            tempCouponRecord.setMemberId(AESUtil.Encrypt(tempCouponRecord.getMemberId()));
+            tempCouponRecord.setPromotionId(AESUtil.Encrypt(tempCouponRecord.getPromotionId()));
             CouponRecordVo couponRecordVo = new CouponRecordVo();
             BeanUtils.copyA2B(tempCouponRecord,couponRecordVo);
             targetCouponRecordList.add(couponRecordVo);
