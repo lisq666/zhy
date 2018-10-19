@@ -116,7 +116,7 @@ public class PromotionServiceImpl implements PromotionService {
      * @throws Exception
      */
     @Override
-    public JsonResult ITMReceiveCoupon(ITMCouponVp vp) throws Exception {
+    public JsonResult  ITMReceiveCoupon(ITMCouponVp vp) throws Exception {
         // 判断参数非空
         if(null == vp || null == vp.getCouponAmount() || null == vp.getCouponEndTime()
             || StringUtils.isBlank(vp.getPromotionName()) || StringUtils.isBlank(vp.getUserId()) ){

@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service("couponRecordService")
@@ -61,13 +62,14 @@ public class CouponRecordServiceImpl implements CouponRecordService {
         }*/
         SerialGeneratorMgr mgr = new SerialGeneratorMgr();
         String couponId = mgr.getSerialKey(GeneratorConstants.COUPON_RECORD_SERIAL).trim();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         CouponRecord coupon = new CouponRecord();
         coupon.setPromotionId(detail.getPromotionId());
         coupon.setCouponId(couponId);
         coupon.setDenominationAmount(detail.getDispatchedAmount());
         coupon.setCouponGenTime(new Date(new Date().getTime() + TimeConstants.HALF_HOUR));
-        coupon.setCouponExpireDate(vp.getCouponEndTime());
+        coupon.setCouponExpireDate(sdf.parse(vp.getCouponEndTime()));
         coupon.setAcceptedStatus(CouponConstants.ACCEPTED_STATUS_NO);
         coupon.setMemberId(vp.getUserId());
         coupon.setCouponStatus(CouponConstants.COUPON_STATUS_CAN_USER);
