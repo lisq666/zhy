@@ -26,18 +26,21 @@ public class CouponRecordController {
 
     /**
      * 根据传入优惠券编号数组获取相应优惠券信息
-     * @param couponIds 优惠券数组编号
+     * @param paramCouponIds 优惠券数组编号
      * @return 优惠券JSON集合
      */
     @ResponseBody
     @RequestMapping(value = "/couponRecord/acquireCouponRecords",method = {RequestMethod.POST})
-    public JsonResult acquireCouponRecords(@RequestParam(value = "couponIds[]") String[] couponIds,String sign){
+    public JsonResult acquireCouponRecords(String paramCouponIds,String sign){
         try {
-            if(couponIds == null || couponIds.length <= 0 || sign == null || "".equals(sign)){
+
+            //@RequestParam(value = "couponIds[]") String[] couponIds,
+            if(paramCouponIds == null || sign == null || "".equals(sign)){
                 log.info("参数为空");
                 return JsonResult.failedParamaterEmpty();
             }
-
+            String[] couponIds = paramCouponIds.split(",");
+            log.info("参数为" + couponIds);
             Map<String, String> paramValues = new HashMap<String, String>();
             paramValues.put("couponIds",couponIds.toString());
             String key = SecurityTool.getSignature(paramValues,null);
