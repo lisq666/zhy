@@ -212,6 +212,9 @@ public class CouponRecordServiceImpl implements CouponRecordService {
      */
     private CouponRecord checkCouponStatus(String couponId) {
         CouponRecord couponRecord = couponRecordMapper.selectByPrimaryKey(couponId);
+        if(null == couponRecord){
+            logger.error("优惠券" + couponId + "未查询出结果集, couponRecord is null");
+        }
         // 优惠券来源为供销卷
         if(couponRecord.getSysSource() != 1){
             logger.error("优惠券" + couponId + "来源为供销卷, sysSource = 0");
