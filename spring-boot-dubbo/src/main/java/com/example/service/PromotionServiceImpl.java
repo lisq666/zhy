@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -73,12 +74,13 @@ public class PromotionServiceImpl implements PromotionService {
         "magnitude": "1",
         "releaseStatus": "5",
         */
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
        Promotion promotion = new Promotion();
        promotion.setPromotionId(promotionId);
        promotion.setPromotionName(vp.getPromotionName());
        promotion.setPromotionStartTime(new Date(new Date().getTime() + TimeConstants.HALF_HOUR));
-       promotion.setPromotionEndTime(vp.getCouponEndTime());
+       promotion.setPromotionEndTime(sdf.parse(vp.getCouponEndTime()));
        promotion.setPromotionStatus(PromotionConstants.PROMOTION_STATUS_WORKON);
        promotion.setPromotionLauncher(PromotionConstants.ITM_PROMOTION_LAUNCHER);
        promotion.setPromotionCreateTime(new Date());

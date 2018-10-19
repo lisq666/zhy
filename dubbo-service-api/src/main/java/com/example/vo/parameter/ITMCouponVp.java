@@ -19,7 +19,7 @@ public class ITMCouponVp implements Serializable {
     /**
      * 优惠券结束时间
      */
-    private Date couponEndTime;
+    private String couponEndTime;
 //    private String couponId;
     /**
      * 活动名称
