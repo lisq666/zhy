@@ -77,8 +77,10 @@ public class CouponRecordController {
             Map<String, String> paramValues = new HashMap<String, String>();
             paramValues.put("couponId", couponId);
             String key = SecurityTool.getSignature(paramValues,null);
+
             log.debug("system key" + key);
             log.debug("sign" + sign);
+
             if(key.equals(sign)){
                 return couponRecordService.syncCouponStatus(AESUtil.Decrypt(couponId));
             }
