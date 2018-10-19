@@ -191,7 +191,6 @@ public class PromotionServiceImpl implements PromotionService {
     private ITMCouponVp VpDecode(ITMCouponVp vp) {
         try {
             vp.setUserId(AESUtil.Decrypt(vp.getUserId()));
-            vp.setPromotionName(AESUtil.Decrypt(vp.getPromotionName()));
         } catch (Exception e) {
             e.printStackTrace();
         }

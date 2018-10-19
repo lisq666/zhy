@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
 @Slf4j
@@ -34,6 +35,8 @@ public class PromotionController {
         try {
             // 验签
             String key = SecurityTool.getSignature(paramValues,null);
+            log.debug("system key" + key);
+            log.debug("vp.sign" + vp.getSign());
             if(StringUtils.isEquals(key, vp.getSign())){
                 // 生成并发放优惠券
                 return promotionService.ITMReceiveCoupon(vp);
@@ -54,12 +57,13 @@ public class PromotionController {
            return null;
         }
         // 初始化验签参数
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("promotionName", vp.getPromotionName());
         map.put("timeStamp", vp.getTimeStamp());
         map.put("userId", vp.getUserId());
         map.put("couponAmount", vp.getCouponAmount().toString());
-        map.put("couponEndTime", new DateTime(vp.getCouponEndTime()).toString("yyyy-MM-dd HH:mm:ss"));
+        map.put("couponEndTime", vp.getCouponEndTime());
         return map;
     }
 
