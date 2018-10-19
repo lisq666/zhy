@@ -74,7 +74,7 @@ public class CouponRecordController {
         }
         // 验签
         try {
-            Map<String, String> paramValues = new HashMap<String, String>();
+            /*Map<String, String> paramValues = new HashMap<String, String>();
             paramValues.put("couponId", couponId);
             String key = SecurityTool.getSignature(paramValues,null);
 
@@ -83,8 +83,9 @@ public class CouponRecordController {
 
             if(key.equals(sign)){
                 return couponRecordService.syncCouponStatus(AESUtil.Decrypt(couponId));
-            }
-            return JsonResult.failed(99999, "验签失败");
+            }*/
+            return couponRecordService.syncCouponStatus(AESUtil.Decrypt(couponId));
+            /*return JsonResult.failed(99999, "验签失败");*/
         }catch (Exception e){
             e.printStackTrace();
         }
