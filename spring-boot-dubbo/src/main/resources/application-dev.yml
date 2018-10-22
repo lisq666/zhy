@@ -17,7 +17,7 @@ dubbo:
           port: 20874
 uia:
     registry:
-          address: 10.1.102.163:2181
+          address: 10.1.102.117:2181
 #10.1.102.117:2181
 mybatis:
   mapper-locations: classpath:mybatis/*.xml

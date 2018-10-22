@@ -29,6 +29,7 @@ public class MallUserInfoController extends BaseController{
     @RequestMapping(value="/userRegister", method = {RequestMethod.POST})
     @ResponseBody
     public JsonResult userRegister (String timeStamp, String sign,String mobile,String password){
+        log.info("智慧云注册请求参数:sign={},mobile={},password={}",sign,mobile,password);
         if(mobile == null || StringUtils.isBlank(mobile.trim())){
             return JsonResult.failed(10002,"手机号不能为空");
         }
@@ -47,6 +48,7 @@ public class MallUserInfoController extends BaseController{
         paramValues.put("timeStamp",timeStamp);
         try {
             String key = SecurityTool.getSignature(paramValues,null);
+            log.info("智慧云签名校验:sign={},key={}",sign,key);
             if(sign.equals("1")){
                 UserVo userVo = mallUserInfoService.userRegister(mobile,password);
                 return JsonResult.success(userVo);

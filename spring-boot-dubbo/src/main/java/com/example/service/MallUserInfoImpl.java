@@ -53,7 +53,7 @@ public class MallUserInfoImpl implements MallUserInfoService {
         }
         SerialGeneratorMgr serialGeneratorMgr = new SerialGeneratorMgr();
         String newUserId = serialGeneratorMgr.getSerialKey(Constants.AUTH_USERID).trim();
-        Auth auth = addAuth(newUserId,custPwd);
+        Auth auth = addAuth(newUserId,AESUtil.Decrypt(custPwd));
         addUserInfo(mobile,newUserId);
         addUserBingding(mobile,newUserId);
         //syncUia(auth,custPwd,mobile);
@@ -165,7 +165,7 @@ public class MallUserInfoImpl implements MallUserInfoService {
         String rtn = userRegisterServicePrx.userSync(jsonUtils.serialize(uiaVp));
         Map mp = jsonUtils.deserialize(rtn,Map.class);
         String rtnCode = (String) mp.get("rtnCode");
-        logger.info("同步uia用户信息返回结果rtnCode" + rtnCode);
+        logger.info("同步uia用户信息返回结果rtnCode:" + rtnCode);
         if(!"000000".equals(rtnCode)){//同步失败
             logger.error("注册用户同步到UIA失败！" + rtn);
             throw new Exception(rtnCode+"同步到UIA失败");
@@ -175,7 +175,7 @@ public class MallUserInfoImpl implements MallUserInfoService {
         Map m = (Map) list.get(0);
         UiaExternalUser ui1 = new UiaExternalUser();
         ui1.setId(id);
-        ui1.setUiaId((String) m.get("userId"));
+        ui1.setUiaId(m.get("userId").toString());
         ui1.setStatus("1");
         uiaExternalUserMapper.updateByPrimaryKeySelective(ui1);
 
