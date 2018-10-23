@@ -11,8 +11,11 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 
+import javax.transaction.Transactional;
+
 
 @Service("serialGeneratorDataAdapter")
+@Transactional
 public class SerialGeneratorDataAdapterImpl implements SerialGeneratorDataAdapter {
     @Autowired
     private PlatformTransactionManager txManager;

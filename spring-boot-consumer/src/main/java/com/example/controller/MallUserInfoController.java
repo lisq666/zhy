@@ -1,9 +1,7 @@
 package com.example.controller;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
-import com.echinacoop.uia.crypto.encoder.Encoder;
 import com.example.utils.AccountValidatorUtil;
-import com.example.utils.UiaEncoder;
 import com.example.vo.json.JsonResult;
 import com.example.service.MallUserInfoService;
 import com.example.utils.SecurityTool;

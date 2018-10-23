@@ -1,7 +1,6 @@
 package com.example.controller;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
-import com.example.model.CouponRecord;
 import com.example.service.CouponRecordService;
 import com.example.utils.AESUtil;
 import com.example.utils.SecurityTool;
