@@ -124,7 +124,14 @@ public class PromotionServiceImpl implements PromotionService {
             return JsonResult.failed(10000,"传入参数异常");
         }
         // 解密
-        vp = VpDecode(vp);
+        try {
+            vp = VpDecode(vp);
+        } catch (NullPointerException npe) {
+            return JsonResult.failed(99999, npe.getMessage());
+        } catch (Exception e){
+            logger.error(e.getMessage(), e);
+            JsonResult.failed(10000,"传入参数异常");
+        }
         // 校验数据库中是否有次活动的信息
         boolean promotionFlag = true;
         Promotion promotion = promotionMapper.checkPromotionName(vp.getPromotionName());
@@ -189,11 +196,19 @@ public class PromotionServiceImpl implements PromotionService {
     }
 
     private ITMCouponVp VpDecode(ITMCouponVp vp) {
+        if(StringUtils.isBlank(vp.getUserId())){
+            throw new NullPointerException("Afferent UserId id null");
+        }
+        String userId = "";
         try {
-            vp.setUserId(AESUtil.Decrypt(vp.getUserId()));
+            userId = AESUtil.Decrypt(vp.getUserId());
         } catch (Exception e) {
             e.printStackTrace();
         }
+        if(StringUtils.isBlank(userId)){
+            throw new NullPointerException("After UserId is null");
+        }
+        vp.setUserId(userId);
         return vp;
     }
 

@@ -61,7 +61,7 @@ public class CouponRecordServiceImpl implements CouponRecordService {
                 "IS_SEND_MESSAGE": "1"
         }*/
         SerialGeneratorMgr mgr = new SerialGeneratorMgr();
-        String couponId = mgr.getSerialKey(GeneratorConstants.COUPON_RECORD_SERIAL).trim();
+        String couponId = "ITM" + mgr.getSerialKey(GeneratorConstants.COUPON_RECORD_SERIAL).trim();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         CouponRecord coupon = new CouponRecord();
