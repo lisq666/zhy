@@ -116,7 +116,7 @@ public class PromotionServiceImpl implements PromotionService {
      * @throws Exception
      */
     @Override
-    public JsonResult  ITMReceiveCoupon(ITMCouponVp vp) throws Exception {
+    public JsonResult  ITMReceiveCoupon(ITMCouponVp vp){
         // 判断参数非空
         if(null == vp || null == vp.getCouponAmount() || null == vp.getCouponEndTime()
             || StringUtils.isBlank(vp.getPromotionName()) || StringUtils.isBlank(vp.getUserId()) ){
@@ -140,19 +140,28 @@ public class PromotionServiceImpl implements PromotionService {
         }
 
         List<PromotionParamValue> paramValueList = new ArrayList<PromotionParamValue>(15);
-        if(promotionFlag){
-            // 1 初始化活动实例 Promotion
-            promotion = ITMCreateInitPromotion(vp);
-            // 2 初始化活动参数实例 PromotionParamValue
-            paramValueList = promotionParamValueService.ITMCreateInitPromotionParamValue(promotion, vp);
-        }
-        // 3 初始化优惠券派发实例 CouponDispatch
-        CouponDispatch couponDispatch = couponDispatchService.ITMCreateInitCouponDispatch(promotion.getPromotionId(), vp.getCouponAmount());
-        // 4 初始化优惠券派发详情实例
-        CouponDispatchDetail couponDispatchDetail = couponDispatchDetailService.ITMCreateInitCouponDispatchDetail(vp, couponDispatch);
-        // 5 初始化优惠券实例 CouponRecord
-        CouponRecord couponRecord = couponRecordService.ITMCreateInitCouponRecord(vp, couponDispatchDetail);
+        CouponDispatch couponDispatch = null;
+        CouponDispatchDetail couponDispatchDetail = null;
+        CouponRecord couponRecord = null;
+        try {
+            if (promotionFlag) {
 
+                promotion = ITMCreateInitPromotion(vp);
+
+                // 1 初始化活动实例 Promotion
+                // 2 初始化活动参数实例 PromotionParamValue
+                paramValueList = promotionParamValueService.ITMCreateInitPromotionParamValue(promotion, vp);
+            }
+            // 3 初始化优惠券派发实例 CouponDispatch
+            couponDispatch = couponDispatchService.ITMCreateInitCouponDispatch(promotion.getPromotionId(), vp.getCouponAmount());
+            // 4 初始化优惠券派发详情实例
+            couponDispatchDetail = couponDispatchDetailService.ITMCreateInitCouponDispatchDetail(vp, couponDispatch);
+            // 5 初始化优惠券实例 CouponRecord
+            couponRecord = couponRecordService.ITMCreateInitCouponRecord(vp, couponDispatchDetail);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return JsonResult.failed(99999, e.getMessage());
+        }
         // 初始化实例 非空校验
         if(null == promotion || (null == paramValueList && paramValueList.size() > 0) || null == couponRecord
                 || null == couponDispatch || null == couponDispatchDetail){
@@ -191,7 +200,6 @@ public class PromotionServiceImpl implements PromotionService {
         }
 
         CouponVo vo = couponRecordService.couponToVo(couponRecord);
-        logger.info(JSON.json(vo));
         return JsonResult.success(vo);
     }
 
@@ -199,6 +207,7 @@ public class PromotionServiceImpl implements PromotionService {
         if(StringUtils.isBlank(vp.getUserId())){
             throw new NullPointerException("Afferent UserId id null");
         }
+        logger.info("====== afferent userId is : " + vp.getUserId() + " =======");
         String userId = "";
         try {
             userId = AESUtil.Decrypt(vp.getUserId());
@@ -206,6 +215,7 @@ public class PromotionServiceImpl implements PromotionService {
             e.printStackTrace();
         }
         if(StringUtils.isBlank(userId)){
+            logger.error("Decrypt userId is null , afferent userId is " + vp.getUserId());
             throw new NullPointerException("After UserId is null");
         }
         vp.setUserId(userId);
