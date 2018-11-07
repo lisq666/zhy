@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.model.Auth;
 import com.example.model.CouponDispatch;
 import com.example.model.CouponDispatchDetail;
 import com.example.model.Promotion;
@@ -12,7 +13,7 @@ public interface CouponDispatchDetailService {
      * @return
      * @throws Exception
      */
-    CouponDispatchDetail ITMCreateInitCouponDispatchDetail(ITMCouponVp vp, CouponDispatch dispatch) throws Exception;
+    CouponDispatchDetail ITMCreateInitCouponDispatchDetail(ITMCouponVp vp, CouponDispatch dispatch, Auth auth) throws Exception;
 
     /**
      * 优惠券派发详情入库
