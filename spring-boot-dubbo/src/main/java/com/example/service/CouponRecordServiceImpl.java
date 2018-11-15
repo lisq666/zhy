@@ -150,12 +150,21 @@ public class CouponRecordServiceImpl implements CouponRecordService {
         if(StringUtils.isBlank(couponId)){
             return JsonResult.failed(10000, "优惠券id为空");
         }
-        try{
-            // 校验优惠券信息 正常返回优惠券信息 否则返回空
-            CouponRecord coupon = checkCouponStatus(couponId);
+
+        // 校验优惠券信息 正常返回优惠券信息 否则返回空
+        CouponRecord coupon = null;
+        try {
+            coupon = checkCouponStatus(couponId);
             if(null == coupon){
                 return JsonResult.failed(10001, "优惠券状态不正确");
             }
+        } catch (NullPointerException npe) {
+            return JsonResult.failed(10001, npe.getMessage());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        try{
             // 修改优惠券状态
             int updateResult = 0;
             try {
@@ -210,25 +219,27 @@ public class CouponRecordServiceImpl implements CouponRecordService {
      * @param couponId
      * @return
      */
-    private CouponRecord checkCouponStatus(String couponId) {
+    private CouponRecord checkCouponStatus(String couponId) throws Exception {
+        if(StringUtils.isBlank(couponId)){
+            throw new NullPointerException("传入优惠券id为空");
+        }
         CouponRecord couponRecord = couponRecordMapper.selectByPrimaryKey(couponId);
         if(null == couponRecord){
             logger.error("优惠券" + couponId + "未查询出结果集, couponRecord is null");
+            throw new NullPointerException("优惠券id : " + couponId + " , 未查询出结果集");
         }
         // 优惠券来源为供销卷
         if(couponRecord.getSysSource() != 1){
             logger.error("优惠券" + couponId + "来源为供销卷, sysSource = 0");
-            return null;
+            throw new NullPointerException("优惠券id : " + couponId + " , 来源为供销卷");
         }
         // 优惠券已经使用过
         if(!StringUtils.isBlank(couponRecord.getCouponStatus()) && couponRecord.getCouponStatus().equals("02")
                 || !StringUtils.isBlank(couponRecord.getChannelType()) && couponRecord.getChannelType().equals("2")){
             logger.error("优惠券" + couponId + "已经使用过 already used");
-            return null;
+            throw new NullPointerException("优惠券id : "+ couponId +" , 优惠券已经使用过");
         }
-        if(null == couponRecord){
-            logger.error("优惠券" + couponId + "查询结果为空 null result");
-        }
+
         return couponRecord;
     }
 }
