@@ -10,7 +10,7 @@ public class PromotionConstants {
     /**
      * 智慧云项目活动发起人
      */
-    public final static String ITM_PROMOTION_LAUNCHER = "ZHY";
+    public final static String ITM_PROMOTION_LAUNCHER = "025656";
 
     /**
      * 红包活动类型id

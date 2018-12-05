@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -43,6 +44,8 @@ public class PromotionServiceImpl implements PromotionService {
     private CouponDispatchService couponDispatchService;
     @Autowired
     private CouponDispatchDetailService couponDispatchDetailService;
+    @Resource
+    private AuthService authService;
 
 
     /**
@@ -116,7 +119,7 @@ public class PromotionServiceImpl implements PromotionService {
      * @throws Exception
      */
     @Override
-    public JsonResult  ITMReceiveCoupon(ITMCouponVp vp) throws Exception {
+    public JsonResult  ITMReceiveCoupon(ITMCouponVp vp){
         // 判断参数非空
         if(null == vp || null == vp.getCouponAmount() || null == vp.getCouponEndTime()
             || StringUtils.isBlank(vp.getPromotionName()) || StringUtils.isBlank(vp.getUserId()) ){
@@ -124,7 +127,25 @@ public class PromotionServiceImpl implements PromotionService {
             return JsonResult.failed(10000,"传入参数异常");
         }
         // 解密
-        vp = VpDecode(vp);
+        try {
+            vp = VpDecode(vp);
+        } catch (NullPointerException npe) {
+            return JsonResult.failed(99999, npe.getMessage());
+        } catch (Exception e){
+            logger.error(e.getMessage(), e);
+            JsonResult.failed(10000,"传入参数异常");
+        }
+        // 校验传入用户id是否在数据库中存在
+        Auth auth = null;
+        try {
+            auth = authService.getAuthByUserId(vp.getUserId());
+            if(null == auth || StringUtils.isBlank(auth.getUserid())){
+                return JsonResult.failed(10000, "传入用户id异常， 用户id为" + vp.getUserId());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         // 校验数据库中是否有次活动的信息
         boolean promotionFlag = true;
         Promotion promotion = promotionMapper.checkPromotionName(vp.getPromotionName());
@@ -133,19 +154,28 @@ public class PromotionServiceImpl implements PromotionService {
         }
 
         List<PromotionParamValue> paramValueList = new ArrayList<PromotionParamValue>(15);
-        if(promotionFlag){
-            // 1 初始化活动实例 Promotion
-            promotion = ITMCreateInitPromotion(vp);
-            // 2 初始化活动参数实例 PromotionParamValue
-            paramValueList = promotionParamValueService.ITMCreateInitPromotionParamValue(promotion, vp);
-        }
-        // 3 初始化优惠券派发实例 CouponDispatch
-        CouponDispatch couponDispatch = couponDispatchService.ITMCreateInitCouponDispatch(promotion.getPromotionId(), vp.getCouponAmount());
-        // 4 初始化优惠券派发详情实例
-        CouponDispatchDetail couponDispatchDetail = couponDispatchDetailService.ITMCreateInitCouponDispatchDetail(vp, couponDispatch);
-        // 5 初始化优惠券实例 CouponRecord
-        CouponRecord couponRecord = couponRecordService.ITMCreateInitCouponRecord(vp, couponDispatchDetail);
+        CouponDispatch couponDispatch = null;
+        CouponDispatchDetail couponDispatchDetail = null;
+        CouponRecord couponRecord = null;
+        try {
+            if (promotionFlag) {
 
+                // 1 初始化活动实例 Promotion
+                promotion = ITMCreateInitPromotion(vp);
+
+                // 2 初始化活动参数实例 PromotionParamValue
+                paramValueList = promotionParamValueService.ITMCreateInitPromotionParamValue(promotion, vp);
+            }
+            // 3 初始化优惠券派发实例 CouponDispatch
+            couponDispatch = couponDispatchService.ITMCreateInitCouponDispatch(promotion.getPromotionId(), vp.getCouponAmount());
+            // 4 初始化优惠券派发详情实例
+            couponDispatchDetail = couponDispatchDetailService.ITMCreateInitCouponDispatchDetail(vp, couponDispatch, auth);
+            // 5 初始化优惠券实例 CouponRecord
+            couponRecord = couponRecordService.ITMCreateInitCouponRecord(vp, couponDispatchDetail);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return JsonResult.failed(99999, e.getMessage());
+        }
         // 初始化实例 非空校验
         if(null == promotion || (null == paramValueList && paramValueList.size() > 0) || null == couponRecord
                 || null == couponDispatch || null == couponDispatchDetail){
@@ -184,16 +214,25 @@ public class PromotionServiceImpl implements PromotionService {
         }
 
         CouponVo vo = couponRecordService.couponToVo(couponRecord);
-        logger.info(JSON.json(vo));
         return JsonResult.success(vo);
     }
 
     private ITMCouponVp VpDecode(ITMCouponVp vp) {
+        if(StringUtils.isBlank(vp.getUserId())){
+            throw new NullPointerException("Afferent UserId id null");
+        }
+        logger.info("====== afferent userId is : " + vp.getUserId() + " =======");
+        String userId = "";
         try {
-            vp.setUserId(AESUtil.Decrypt(vp.getUserId()));
+            userId = AESUtil.Decrypt(vp.getUserId());
         } catch (Exception e) {
             e.printStackTrace();
         }
+        if(StringUtils.isBlank(userId)){
+            logger.error("Decrypt userId is null , afferent userId is " + vp.getUserId());
+            throw new NullPointerException("After UserId is null");
+        }
+        vp.setUserId(userId);
         return vp;
     }
 

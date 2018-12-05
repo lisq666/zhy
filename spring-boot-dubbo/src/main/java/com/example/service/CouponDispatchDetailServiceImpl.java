@@ -9,6 +9,7 @@ import com.example.model.Auth;
 import com.example.model.CouponDispatch;
 import com.example.model.CouponDispatchDetail;
 import com.example.utils.JsonUtils;
+import com.example.utils.StringUtils;
 import com.example.utils.keygen.SerialGeneratorMgr;
 import com.example.vo.parameter.ITMCouponVp;
 import org.slf4j.Logger;
@@ -35,8 +36,8 @@ public class CouponDispatchDetailServiceImpl implements CouponDispatchDetailServ
     private AuthService authService;
 
     @Override
-    public CouponDispatchDetail ITMCreateInitCouponDispatchDetail(ITMCouponVp vp, CouponDispatch dispatch) throws Exception {
-        if(null == vp || null == dispatch){
+    public CouponDispatchDetail ITMCreateInitCouponDispatchDetail(ITMCouponVp vp, CouponDispatch dispatch, Auth auth) throws Exception {
+        if(null == vp || null == dispatch || null == auth){
             logger.error("The incoming parameter is empty , 传入参数为空");
             throw new NullPointerException("The incoming parameter is empty , 传入参数为空");
         }
@@ -63,7 +64,7 @@ public class CouponDispatchDetailServiceImpl implements CouponDispatchDetailServ
                 "COUPON_OVERDUE_STATUS": "",
                 "DELETE_COUPON_STATUS": ""
         }*/
-        Auth auth = authService.getAuthByUserId(vp.getUserId());
+
         SerialGeneratorMgr mgr = new SerialGeneratorMgr();
         String detailId = mgr.getSerialKey(GeneratorConstants.COUPON_DIPATCH_DETAIL_SERIAL).trim();
 
