@@ -21,6 +21,8 @@ http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
                      check="false" registry="zookeeper" protocol="dubbo" timeout="15000"/>
     <dubbo:reference id="couponRecordService" interface="com.example.service.CouponRecordService"
                      check="false" registry="zookeeper" protocol="dubbo" timeout="15000"/>
+    <dubbo:reference id="asyncService" interface="com.example.service.AsyncService"
+                     check="false" registry="zookeeper" protocol="dubbo" timeout="15000"/>
 
 
 </beans>

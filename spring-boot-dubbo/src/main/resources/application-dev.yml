@@ -12,7 +12,7 @@ dubbo:
     application:
           name: zhy-provider
     registry:
-          address: 10.1.102.163:2181
+          address: 127.0.0.1:2181
     protocol:
           port: 20874
 uia:

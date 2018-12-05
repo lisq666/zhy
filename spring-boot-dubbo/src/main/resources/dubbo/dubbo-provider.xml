@@ -18,6 +18,7 @@ http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
     <dubbo:service interface="com.example.service.MallUserInfoService" ref="mallUserInfoService" registry="zk2"/>
     <dubbo:service interface="com.example.service.PromotionService" ref="promotionService" registry="zk2"/>
     <dubbo:service interface="com.example.service.CouponRecordService" ref="couponRecordService" registry="zk2"/>
+    <dubbo:service interface="com.example.service.AsyncService" ref="asyncService" registry="zk2"/>
 
     <!-- 注册中心服务地址   uia -->
     <dubbo:registry id="zk1" protocol="zookeeper" address="${uia.registry.address}" />
