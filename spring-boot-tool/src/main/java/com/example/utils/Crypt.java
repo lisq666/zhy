@@ -11,6 +11,7 @@ public class Crypt {
     private final static String[] PASSWORDS = {"1","2","3","4","5","6","7","8","9","0",
             "a","b","c","d","e","f","g","h","j",
             "Q","W","E","R","T","Y","U","P","K"};
+
     /**
      * 密码加密规则
      * @param userId

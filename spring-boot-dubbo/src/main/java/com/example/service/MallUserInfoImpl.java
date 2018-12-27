@@ -3,7 +3,6 @@ package com.example.service;
 import com.echinacoop.uia.dubbo.client.auth.consumer.UserRegisterServicePrx;
 import com.example.mapper.MallUserInfoMapper;
 import com.example.utils.*;
-import com.example.vo.json.UserVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +23,8 @@ public class MallUserInfoImpl implements MallUserInfoService {
     private UserRegisterServicePrx userRegisterServicePrx;
 
     @Override
-    public UserVo userRegister() throws Exception{
+    public void userRegister() throws Exception{
 
-        return new UserVo("","");
     }
 
 }
