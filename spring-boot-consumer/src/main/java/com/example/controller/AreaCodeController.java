@@ -15,40 +15,6 @@ public class AreaCodeController extends BaseController{
     @Resource
     private AreaCodeService areaCodeService;
 
-    @RequestMapping(value="/add/addAreaCode", method = {RequestMethod.POST})
-    @ResponseBody
-    public ResultData addAreaCode (AreaCodeVp areaCodeVp){
-        try {
-            areaCodeService.addAreaCode(areaCodeVp);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ResultData.success();
-    }
-
-    @RequestMapping(value="/delete/deleteAreaCode", method = {RequestMethod.GET})
-    @ResponseBody
-    public ResultData deleteAreaCode (String id){
-        try {
-            areaCodeService.deleteAreaCode(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ResultData.success();
-    }
-
-    @RequestMapping(value="/update/updateAreaCode", method = {RequestMethod.POST})
-    @ResponseBody
-    public ResultData updateAreaCode (AreaCodeVp areaCodeVp){
-        try {
-            areaCodeService.updateAreaCode(areaCodeVp);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ResultData.success();
-    }
-
-
     @RequestMapping(value="/select/selectAreaCode", method = {RequestMethod.GET})
     @ResponseBody
     public ResultData selectAreaCode (String id){

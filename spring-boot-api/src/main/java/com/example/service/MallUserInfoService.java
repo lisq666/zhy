@@ -5,5 +5,5 @@ import com.example.vo.json.UserVo;
 public interface MallUserInfoService {
 
 
-    UserVo userRegister(String mobile, String password) throws Exception;
+    UserVo userRegister() throws Exception;
 }

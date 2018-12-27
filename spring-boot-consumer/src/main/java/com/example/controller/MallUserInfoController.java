@@ -26,32 +26,10 @@ public class MallUserInfoController extends BaseController{
 
     @RequestMapping(value="/userRegister", method = {RequestMethod.POST})
     @ResponseBody
-    public JsonResult userRegister (String timeStamp, String sign,String mobile,String password){
-        log.info("智慧云注册请求参数:sign={},mobile={},password={}",sign,mobile,password);
-        if(mobile == null || StringUtils.isBlank(mobile.trim())){
-            return JsonResult.failed(10002,"手机号不能为空");
-        }
-        if(password == null || StringUtils.isBlank(password.trim())){
-            return JsonResult.failed(10003,"密码不能为空");
-        }
-        if(sign == null || StringUtils.isBlank(sign.trim())){
-            return JsonResult.failed(10004,"sign签名不能为空");
-        }
-        if(!AccountValidatorUtil.isMobile(mobile)){
-            return JsonResult.failed(10005,"手机号不合法");
-        }
-        Map<String, String> paramValues = new HashMap<String, String>();
-        paramValues.put("mobile",mobile);
-        paramValues.put("password",password);
-        paramValues.put("timeStamp",timeStamp);
+    public JsonResult userRegister (){
         try {
-            String key = SecurityTool.getSignature(paramValues,null);
-            log.info("智慧云签名校验:sign={},key={}",sign,key);
-            if(sign.equals("1")){
-                UserVo userVo = mallUserInfoService.userRegister(mobile,password);
-                return JsonResult.success(userVo);
-            }
-            return JsonResult.failed(10001,"验签失败");
+            UserVo userVo = mallUserInfoService.userRegister();
+            return JsonResult.success(userVo);
         } catch (Exception e) {
             log.error("注册异常",e);
             return JsonResult.failed("注册异常");
