@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>com.example</groupId>
-            <artifactId>dubbo-service-api</artifactId>
+            <artifactId>spring-boot-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
