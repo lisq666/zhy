@@ -18,7 +18,7 @@ http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
     <dubbo:service interface="com.example.service.AsyncService" ref="asyncService" registry="zk2"/>
 
     <!-- 注册中心服务地址   uia -->
-    <dubbo:registry id="zk1" protocol="zookeeper" address="${uia.registry.address}" />
+   <!-- <dubbo:registry id="zk1" protocol="zookeeper" address="${uia.registry.address}" />
     <dubbo:reference id="userRegisterServicePrx" interface="com.echinacoop.uia.dubbo.client.auth.consumer.UserRegisterServicePrx"
-                      registry="zk1" check="false" timeout="15000"/>
+                      registry="zk1" check="false" timeout="15000"/>-->
 </beans>

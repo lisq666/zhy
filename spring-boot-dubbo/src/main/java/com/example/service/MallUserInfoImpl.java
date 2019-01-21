@@ -1,6 +1,5 @@
 package com.example.service;
 
-import com.echinacoop.uia.dubbo.client.auth.consumer.UserRegisterServicePrx;
 import com.example.mapper.MallUserInfoMapper;
 import com.example.utils.*;
 import org.slf4j.Logger;
@@ -19,8 +18,6 @@ public class MallUserInfoImpl implements MallUserInfoService {
 
     @Autowired
     private MallUserInfoMapper mallUserInfoMapper;
-    @Resource
-    private UserRegisterServicePrx userRegisterServicePrx;
 
     @Override
     public void userRegister() throws Exception{

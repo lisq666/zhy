@@ -4,11 +4,10 @@ import java.io.File;
 import java.net.URLDecoder;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
-import com.echinacoop.uia.crypto.encoder.Encoder;
 
 public class UiaEncoder {
 
-	private static Encoder encoder;
+	/*private static Encoder encoder;
 
 	public static Encoder getEncoder() throws Exception{
 		if(null==encoder){
@@ -25,7 +24,7 @@ public class UiaEncoder {
 			}
 		}
 		return encoder;
-	}
+	}*/
 
 	
 }
