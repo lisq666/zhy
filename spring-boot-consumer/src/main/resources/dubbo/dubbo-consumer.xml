@@ -13,8 +13,6 @@ http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
     <dubbo:reference id="areaCodeService" interface="com.example.service.AreaCodeService"
                      check="false" registry="zookeeper" protocol="dubbo" timeout="15000"/>
-    <dubbo:reference id="mallUserInfoService" interface="com.example.service.MallUserInfoService"
-                     check="false" registry="zookeeper" protocol="dubbo" timeout="15000"/>
     <dubbo:reference id="asyncService" interface="com.example.service.AsyncService"
                      check="false" registry="zookeeper" protocol="dubbo" timeout="15000"/>
 

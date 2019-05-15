@@ -5,7 +5,6 @@ import com.example.model.AreaCode;
 import com.example.utils.BeanUtils;
 import com.example.utils.JsonUtils;
 import com.example.vo.json.AreaCodeVo;
-import com.example.vo.parameter.AreaCodeVp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

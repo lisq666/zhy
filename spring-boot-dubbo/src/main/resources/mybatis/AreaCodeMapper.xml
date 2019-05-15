@@ -2,81 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.mapper.AreaCodeMapper" >
   <resultMap id="BaseResultMap" type="com.example.model.AreaCode" >
-    <id column="code_id" property="codeId" jdbcType="VARCHAR" />
-    <result column="code_name" property="codeName" jdbcType="VARCHAR" />
-    <result column="address_id" property="addressId" jdbcType="VARCHAR" />
-    <result column="address_name" property="addressName" jdbcType="VARCHAR" />
+    <result column="code_Id" property="codeId" jdbcType="VARCHAR" />
+    <result column="code_Name" property="codeName" jdbcType="VARCHAR" />
+    <result column="address_Id" property="addressId" jdbcType="VARCHAR" />
+    <result column="address_Name" property="addressName" jdbcType="VARCHAR" />
   </resultMap>
+
   <sql id="Base_Column_List" >
     code_id, code_name, address_id, address_name
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from b2c_areacode
     where code_id = #{codeId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from b2c_areacode
-    where code_id = #{codeId,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.example.model.AreaCode" >
-    insert into b2c_areacode (code_id, code_name, address_id, 
-      address_name)
-    values (#{codeId,jdbcType=VARCHAR}, #{codeName,jdbcType=VARCHAR}, #{addressId,jdbcType=VARCHAR}, 
-      #{addressName,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.example.model.AreaCode" >
-    insert into b2c_areacode
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="codeId != null" >
-        code_id,
-      </if>
-      <if test="codeName != null" >
-        code_name,
-      </if>
-      <if test="addressId != null" >
-        address_id,
-      </if>
-      <if test="addressName != null" >
-        address_name,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="codeId != null" >
-        #{codeId,jdbcType=VARCHAR},
-      </if>
-      <if test="codeName != null" >
-        #{codeName,jdbcType=VARCHAR},
-      </if>
-      <if test="addressId != null" >
-        #{addressId,jdbcType=VARCHAR},
-      </if>
-      <if test="addressName != null" >
-        #{addressName,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.model.AreaCode" >
-    update b2c_areacode
-    <set >
-      <if test="codeName != null" >
-        code_name = #{codeName,jdbcType=VARCHAR},
-      </if>
-      <if test="addressId != null" >
-        address_id = #{addressId,jdbcType=VARCHAR},
-      </if>
-      <if test="addressName != null" >
-        address_name = #{addressName,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where code_id = #{codeId,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.model.AreaCode" >
-    update b2c_areacode
-    set code_name = #{codeName,jdbcType=VARCHAR},
-      address_id = #{addressId,jdbcType=VARCHAR},
-      address_name = #{addressName,jdbcType=VARCHAR}
-    where code_id = #{codeId,jdbcType=VARCHAR}
-  </update>
 </mapper>
