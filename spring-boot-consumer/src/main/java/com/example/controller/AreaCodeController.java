@@ -2,7 +2,7 @@ package com.example.controller;
 
 import com.example.service.AreaCodeService;
 import com.example.vo.json.AreaCodeVo;
-import com.example.vo.json.JsonResult;
+import com.example.vo.json.R;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -16,15 +16,14 @@ public class AreaCodeController extends BaseController{
 
     @RequestMapping(value="/select/selectAreaCode", method = {RequestMethod.GET})
     @ResponseBody
-    public JsonResult selectAreaCode (String id){
-        AreaCodeVo areaCode = null;
+    public R selectAreaCode (String id){
         try {
-            areaCode = areaCodeService.selectAreaCode(id);
-            return JsonResult.success(areaCode);
+            AreaCodeVo areaCode = areaCodeService.selectAreaCode(id);
+            return R.ok().put("data",areaCode);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return JsonResult.failed();
+        return R.error();
     }
 
 

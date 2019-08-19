@@ -34,11 +34,6 @@
 			<version>2.4.1</version>
 		</dependency>
 
-		<!--<dependency>
-			<groupId>com.erypto.encoder</groupId>
-			<artifactId>uia-encoder</artifactId>
-			<version>0.0.1</version>
-		</dependency>-->
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
